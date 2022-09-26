@@ -155,7 +155,7 @@ def getTargetGroupARN(name):
     return response["TargetGroups"][0]["TargetGroupArn"]
 
 def getAppConfigs():
-    configs = libconf.getLoadedConfigsCopy()
+    configs = libconf.loadAndMergeAllConfigs()
     elbClient = None
     for serviceName in configs["appServices"]:
         fullname = libconf.generateCompleteAppServiceName(serviceName, configs)

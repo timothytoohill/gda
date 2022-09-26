@@ -29,7 +29,7 @@
             "memory": 1024,
             "autoScale": true,
             "healthCheckPath": "/healthcheck",
-            "usesLocalConfigs": true,
+            "usesLocalConfigs": false,
             "mq": {
                 "address": "",
                 "port": 1883,

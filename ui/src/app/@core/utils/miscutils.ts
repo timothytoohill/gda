@@ -43,101 +43,122 @@ export class MiscUtils {
 
     static copyArray(fromArray) {
         const newArray = [];
-        for (let index = 0; index < fromArray.length; index++) {
-            const item = fromArray[index];
-            let newItem = null;
-            if (Array.isArray(item)) {
-                newItem = this.copyArray(item);
-            } else if (item instanceof Object) {
-                newItem = {};
-                this.mergeDictionaries(item, newItem);
-            } else {
-                newItem = item;
+        if (Array.isArray(fromArray)) {
+            for (let index = 0; index < fromArray.length; index++) {
+                const item = fromArray[index];
+                let newItem = null;
+                if (Array.isArray(item)) {
+                    newItem = this.copyArray(item);
+                } else if (item instanceof Object) {
+                    newItem = {};
+                    this.mergeDictionaries(item, newItem);
+                } else {
+                    newItem = item;
+                }
+                newArray.push(item);
             }
-            newArray.push(item);
+        } else {
+            console.warn("ERROR: the supplied argument is not an array.");
         }
         return newArray;
     }
 
     static mergeArrays(fromArray, toArray) {
-        for (let index = 0; index < fromArray.length; index++) {
-            if (toArray.indexOf(fromArray[index]) < 0) {
-                toArray.push(fromArray[index]);
+        if ((Array.isArray(fromArray)) && (Array.isArray(toArray))) {
+            for (let index = 0; index < fromArray.length; index++) {
+                if (toArray.indexOf(fromArray[index]) < 0) {
+                    toArray.push(fromArray[index]);
+                }
             }
+        } else {
+            console.warn("ERROR: one of the supplied arguments is not an array.");
         }
     }
 
     static mergeDictionaries(fromDict, toDict, recurse = true) {
-        if (recurse) {
-            for (const key in fromDict) {
-                if (Array.isArray(fromDict[key])) {
-                    if (Array.isArray(toDict[key])) {
-                        toDict[key] = this.copyArray(fromDict[key]);
+        if ((fromDict instanceof Object) && (toDict instanceof Object)) {
+            if (recurse) {
+                for (const key in fromDict) {
+                    if (Array.isArray(fromDict[key])) {
+                        if (Array.isArray(toDict[key])) {
+                            toDict[key] = this.copyArray(fromDict[key]);
+                        } else {
+                            toDict[key] = this.copyArray(fromDict[key]);
+                        }
+                    } else if (fromDict[key] instanceof Object) {
+                        if (toDict[key] instanceof Object) {
+                            this.mergeDictionaries(fromDict[key], toDict[key]);
+                        } else {
+                            const copyD = {};
+                            this.mergeDictionaries(fromDict[key], copyD);
+                            toDict[key] = copyD;
+                        }
                     } else {
-                        toDict[key] = this.copyArray(fromDict[key]);
+                        toDict[key] = fromDict[key];
                     }
-                } else if (fromDict[key] instanceof Object) {
-                    if (toDict[key] instanceof Object) {
-                        this.mergeDictionaries(fromDict[key], toDict[key]);
-                    } else {
-                        const copyD = {};
-                        this.mergeDictionaries(fromDict[key], copyD);
-                        toDict[key] = copyD;
-                    }
-                } else {
+                }
+            } else {
+                for (const key in fromDict) {
                     toDict[key] = fromDict[key];
                 }
             }
         } else {
-            for (const key in fromDict) {
-                toDict[key] = fromDict[key];
-            }
+            console.warn("ERROR: Supplied value is not an object for mergeDictionaries().");
         }
-    }
+}
 
     static areArraysTheSame(array1: any[], array2: any[]): boolean {
-        if (array1.length == array2.length) {
-            for (let index = 0; index < array1.length; index++) {
-                if (array2[index] !== array1[index]) {
-                    return false;
+        if ((Array.isArray(array1)) && (Array.isArray(array2))) {
+            if (array1.length == array2.length) {
+                for (let index = 0; index < array1.length; index++) {
+                    if (array2[index] !== array1[index]) {
+                        return false;
+                    }
                 }
+            } else {
+                return false;
             }
         } else {
-            return false;
+            console.warn("ERROR: one of the two arguments are not arrays.");
         }
-        return true;
+        return false;
     }
 
     static areDictionariesTheSame(dict1: any, dict2: any): boolean {
-        const dict1Str = JSON.stringify(dict1);
-        const dict2Str = JSON.stringify(dict2);
-        return dict1Str === dict2Str;
-        /*
-                for (let key in dict1) {
-                    if (dict1[key] instanceof Object) {
-                        if (dict2[key] instanceof Object) {
-                            if (!this.areDictionariesTheSame(dict1[key], dict2[key])) {
+        if ((dict1 instanceof Object) && (dict2 instanceof Object)) {
+            const dict1Str = JSON.stringify(dict1);
+            const dict2Str = JSON.stringify(dict2);
+            return dict1Str === dict2Str;
+            /*
+                    for (let key in dict1) {
+                        if (dict1[key] instanceof Object) {
+                            if (dict2[key] instanceof Object) {
+                                if (!this.areDictionariesTheSame(dict1[key], dict2[key])) {
+                                    return false;
+                                }
+                            } else {
+                                return false;
+                            }
+                        } else if (dict1[key] instanceof Array) {
+                            if (dict2[key] instanceof Array) {
+                                if (!this.areArraysTheSame(dict1[key], dict2[key])) {
+                                    return false;
+                                }
+                            } else {
                                 return false;
                             }
                         } else {
-                            return false;
-                        }
-                    } else if (dict1[key] instanceof Array) {
-                        if (dict2[key] instanceof Array) {
-                            if (!this.areArraysTheSame(dict1[key], dict2[key])) {
+                            if (dict2[key] !== dict1[key]) {
                                 return false;
                             }
-                        } else {
-                            return false;
-                        }
-                    } else {
-                        if (dict2[key] !== dict1[key]) {
-                            return false;
                         }
                     }
-                }
-                return true;
-        */
+                    return true;
+            */
+        } else {
+            console.warn("ERROR: the two arguments are not objects.");
+        }
+        return false;
     }
 
     static getUUID() {

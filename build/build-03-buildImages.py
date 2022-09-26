@@ -25,10 +25,6 @@ def buildImage(serviceName, configs):
     service = configs["appServices"][serviceName]
     serviceURI = libinfrastructure.getDockerServiceRepoURI(serviceName)
     dir = service["directory"]
-    if configs["appServices"][serviceName]["usesLocalConfigs"]:
-        serviceConfigs = libconf.loadConfigFile(dir + "/" + libconf.serviceConfigFile)
-        libutil.mergeDictionaries(serviceConfigs, configs)
-        libconf.saveServiceBaseConfigFile(dir, configs)
     preBuildScript = service["preBuildScript"]
     if len(preBuildScript) > 0:
         preBuildScript = dir + "/" + preBuildScript
@@ -39,6 +35,10 @@ def buildImage(serviceName, configs):
             log("Done running pre-build script '" + preBuildScript + "'.")
         except Exception as e:
             log("Failed: " + str(e))
+    if configs["appServices"][serviceName]["usesLocalConfigs"]:
+        serviceConfigs = libconf.loadConfigFile(dir + "/" + libconf.serviceConfigFile)
+        libutil.mergeDictionaries(serviceConfigs, configs)
+        libconf.saveServiceBaseConfigFile(dir, configs)
     params = serviceURI + " '" + dir + "/" + service["dockerFileLocation"] + "'"
     cmd = "containers/01-buildImage.sh " + params
     log("Running " + cmd + "...")

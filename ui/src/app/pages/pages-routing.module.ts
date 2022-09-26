@@ -46,7 +46,7 @@ const routes: Routes = [{
             component: QueuesComponent,
         },
         {
-            path: 'appconfigs',
+            path: 'configs',
             component: AppConfigsComponent,
         },
         {

@@ -3,11 +3,9 @@ import sys
 sys.dont_write_bytecode = True
 
 import os
-import json
 import fastapi
-from fastapi import Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -27,11 +25,11 @@ appConfigs = libinfrastructure.getAppConfigs()
 async def healthCheck():
     return "Good to go!"
 
-@fastAPIRouter.get("/appconfigs")
-@fastAPIRouter.post("/appconfigs")
+@fastAPIRouter.get("/appconfigs", response_class=JSONResponse)
+@fastAPIRouter.post("/appconfigs", response_class=JSONResponse)
 async def getAppConfigs():
     log("Sending app configs.")
-    return libutil.toJSON(appConfigs)
+    return libinfrastructure.getAppConfigs()
 
 @fastAPIRouter.get("/kill")
 @fastAPIRouter.post("/kill")

@@ -33,7 +33,7 @@ async def status():
 @fastAPIApp.get("/readme")
 @fastAPIApp.get("/dashboard")
 @fastAPIApp.get("/system/logs/both")
-@fastAPIApp.get("/appconfigs")
+@fastAPIApp.get("/configs")
 @fastAPIApp.get("/profiles")
 @fastAPIApp.get("/jobs")
 @fastAPIApp.get("/graphdb-instances")

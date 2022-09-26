@@ -10,7 +10,6 @@ cd `dirname "$0"`
 
 ./uibuildconfigs.sh
 
-npm install
 npm run build:prod
 
 echo "UI build complete."

@@ -28,6 +28,11 @@ To remove the GDA containers:
 ```shell
 docker compose down
 ```
+To pull the images again:
+```shell
+docker compose pull
+```
+
 3. The GDA UI defaults to using HTTP port 18081. For example, if you ran GDA on your local workstation, you can browse to: `http://localhost:18081/`
 ### Windows
 GDA can be run with Docker on Windows if Docker is installed. Similar to the commands for Linux, you can run `docker compose` from within the cloned repo directory. 

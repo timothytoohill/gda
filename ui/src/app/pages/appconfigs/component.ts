@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
-import { NbThemeService, NbMediaBreakpoint, NbMediaBreakpointsService } from '@nebular/theme';
 import { ShowcaseDialogComponent } from '../modal-overlays/dialog/showcase-dialog/showcase-dialog.component';
 import { NbDialogService, NbTabsetComponent } from '@nebular/theme';
 import { LoggerService } from '../../@core/services/logger.service';
@@ -19,7 +18,8 @@ export class AppConfigsComponent implements OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.showMessage('Password required', 'For now, a password is required to edit system configs.');
+        //this.showMessage('Password required', 'For now, a password is required to edit system configs.');
+        this.ok();
     }
 
     ngOnDestroy() {
@@ -43,7 +43,8 @@ export class AppConfigsComponent implements OnDestroy, AfterViewInit {
     }
 
     isPasswordGood() {
-        return this.hashPass(this.password) == 5330019721054625;
+        //return this.hashPass(this.password) == 5330019721054625;
+        return true;
     }
 
     hashPass(str, seed = 0) {

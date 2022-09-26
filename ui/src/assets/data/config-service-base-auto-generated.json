@@ -50,14 +50,13 @@
             "memory": 1024,
             "autoScale": true,
             "healthCheckPath": "/healthcheck",
-            "usesLocalConfigs": true,
+            "usesLocalConfigs": false,
             "mq": {
                 "address": "",
                 "port": 1883,
                 "wsport": 9001
             },
-            "sqlScripts": {},
-            "fullName": "inv-gda-dev-ui"
+            "sqlScripts": {}
         },
         "api": {
             "usesLocalConfigs": false,
@@ -78,8 +77,7 @@
                 "graphdb_queries": "",
                 "graphdb_downloads": "",
                 "jobs": ""
-            },
-            "fullName": "inv-gda-dev-api"
+            }
         },
         "relationaldb": {
             "directory": "./relationaldb",
@@ -105,8 +103,7 @@
             },
             "ports": [
                 5432
-            ],
-            "fullName": "inv-gda-dev-relationaldb"
+            ]
         },
         "mq": {
             "directory": "./mq",
@@ -121,8 +118,7 @@
             "ports": [
                 1883,
                 9001
-            ],
-            "fullName": "inv-gda-dev-mq"
+            ]
         },
         "graphdb": {
             "directory": "./graphdb",
@@ -131,8 +127,7 @@
             "usesLocalConfigs": false,
             "ports": [
                 9042
-            ],
-            "fullName": "inv-gda-dev-graphdb"
+            ]
         },
         "graphindex": {
             "directory": "./graphindex",
@@ -142,8 +137,7 @@
             "ports": [
                 9200,
                 9300
-            ],
-            "fullName": "inv-gda-dev-graphindex"
+            ]
         },
         "gremlinserver": {
             "directory": "./gremlinserver",
@@ -154,8 +148,7 @@
             "ports": [
                 8182,
                 9042
-            ],
-            "fullName": "inv-gda-dev-gremlinserver"
+            ]
         }
     },
     "defaultAddress": ""

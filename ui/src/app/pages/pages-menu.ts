@@ -39,7 +39,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Configs',
         icon: 'shuffle-2-outline',
-        link: '/appconfigs',
+        link: '/configs',
     },
     {
         title: 'DATA',
