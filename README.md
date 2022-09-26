@@ -64,7 +64,7 @@ If you are using `docker compose` to run GDA, the `libraries/configs/base.json` 
 ## Scalability
 GDA supports large-scale graph analytics, machine learning, and ETL pipelines. Currently, the backend graph database uses Janus Graph, Cassandra, and Solr, which makes GDA scalable to support very large datasets.
 ## Machine Learning and AI
-Graph data strctures, when modelled propery, can be very useful for performing analytics across disparate data sources. 
+Graph data strctures, when modeled propery, can be very useful for performing analytics across disparate data sources. A goal for GDA is to enable machine learning at scale. The backend of GDA is intended to support model training with high volumes of data. While the machine learning features of GDA depend on the advancement of other features, the platform will continue to be evolved with support for machine learning and AI automations in mind.
 ## Entity resolution
 GDA performs rudimentary entity resolution, and I intend to extend this capability while I evolve the platform. Entity resolution is accomplished via 'jobs' that can be created, started, and left running. Graph queries are used to supply the job with the entities to be resolved, and edges can be automatically created if the algorithm identifies a match.
 ![GDA Jobs](assets/jobs.png)
