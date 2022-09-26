@@ -1,0 +1,75 @@
+<div class="header-container">
+    <div class="logo-container">
+        <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+            <nb-icon icon="menu-2-outline"></nb-icon>
+        </a>
+        <a class="logo" href="#" (click)="navigateHome()">{{ appStateService.appConfigs["appName"].toUpperCase() }}</a>
+    </div>
+    <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+        <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
+    </nb-select>
+
+</div>
+<div class="header-container">
+    <nb-actions size="small">
+        <nb-action class="control-item"
+            style="font-size: 0.65em; font-family: 'Courier New', Courier, monospace; color:darkgray; font-weight: 1;">
+            <table style="padding: 0px">
+                <tr style="padding: 0px">
+                    <td style="text-align: right;">
+                        Graph DB Cluster:
+                    </td>
+                    <td style="color:darkgreen">
+                        {{ getGraphDBClusterAddress() }}
+                    </td>
+                </tr>
+                <tr style="padding: 0px">
+                    <td style="text-align: right;">
+                        API Cluster:
+                    </td>
+                    <td style="color:darkgreen">
+                        {{ getAPIClusterAddress() }}
+                    </td>
+                </tr>
+            </table>
+            &nbsp;
+            &nbsp;
+            <table>
+                <tr style="padding: 0px">
+                    <td style="text-align: right;">
+                        Job Cluster:
+                    </td>
+                    <td style="color:darkgreen">
+                        {{ getJobClusterAddress() }}
+                    </td>
+                </tr>
+                <tr style="padding: 0px">
+                    <td style="text-align: right;">
+                        Compute Cluster:
+                    </td>
+                    <td style="color:darkgreen">
+                        {{ getComputeClusterAddress() }}
+                    </td>
+                </tr>
+            </table>
+        </nb-action>
+
+        <!--
+    <nb-action class="control-item">
+      <nb-search type="rotate-layout"></nb-search>
+    </nb-action>
+    <nb-action class="control-item" icon="email-outline"></nb-action>
+  -->
+
+        <nb-action class="control-item" style="font-size: 11pt; font-weight: 1;">{{ statusService.currentDateTime }}
+        </nb-action>
+        <!--
+  <nb-action class="control-item" icon="bell-outline"></nb-action>
+  -->
+        <nb-action class="user-action" *nbIsGranted="['view', 'user']">
+            <nb-user [onlyPicture]="userPictureOnly" [name]="appStateService.account.name" [picture]="user?.picture"
+                (click)="appUIService.showProfiles()">
+            </nb-user>
+        </nb-action>
+    </nb-actions>
+</div>

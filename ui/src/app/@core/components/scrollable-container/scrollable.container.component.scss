@@ -1,0 +1,19 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+    .parentScroll1 {
+        display: block;
+        flex: 1;
+        position: relative;
+    }
+
+    .parentScroll2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+    }
+}

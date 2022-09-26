@@ -1,0 +1,11 @@
+[Unit]
+Description=GDA
+
+[Service]
+Type=oneshot
+ExecStart=/Development/gda/util/daemon/centos7/start.sh
+ExecStop=/Development/gda/util/daemon/centos7/stop.sh
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

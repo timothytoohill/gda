@@ -1,0 +1,11 @@
+{
+    "thisService": "api",
+    
+    "appServices": {
+        "api": {
+            "graphDB": {
+                "endpoint": "localhost"
+            }
+        }
+    }
+}

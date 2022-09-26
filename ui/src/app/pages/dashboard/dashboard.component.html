@@ -1,0 +1,976 @@
+<table class="bothTable" #mainTable>
+    <tr>
+        <td style="width:75%; height:100%; padding-bottom: 5px; padding-right: 5px;">
+            <div style="height: 100%; width: 100%; display: flex; ">
+                <nb-card class="flexIt noPaddingOrMargins" style="width: 100%; ">
+                    <nb-card-header>
+                        <table style="width:100%;">
+                            <tr>
+                                <td
+                                    style="text-align: right; word-wrap: none; vertical-align: middle; white-space: nowrap;">
+                                    Query:
+                                </td>
+                                <td colspan="7" style="word-wrap: none; vertical-align: middle; white-space: nowrap;">
+                                        <input type="text" fullWidth
+                                            style="font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                            fieldSize="small" [status]="queryStatusBox" nbInput
+                                            [(ngModel)]="currentQueryObj.query" shape="semi-round"
+                                            placeholder="g.V().limit(10)" autocapitalize="off" autocomplete="off"
+                                            spellcheck="false" autocorrect="off" (keydown.enter)="onKeydown($event)">
+                                </td>
+                                <td>
+                                    <span (click)="explainQuery()" class="fakeLink">(?)</span>
+                                </td>
+                                <td style="text-align: right; word-wrap: none; width:200px">
+                                    <table>
+                                        <tr style="padding-left: 7px;">
+                                            <td>
+                                                <button size="tiny" nbButton (click)="saveCurrentQuery()">Save</button>
+                                            </td>
+                                            <td>
+                                                <button size="tiny" nbButton (click)="newQuery()">New</button>
+                                            </td>
+                                            <td>
+                                                <button size="tiny" nbButton
+                                                    (click)="createQueryDownload()">Download</button>
+                                            </td>
+                                            <td>
+                                                <button status="info" size="tiny" nbButton
+                                                    (click)="profileAndExplainQuery()">
+                                                    <div class="statusContainer">
+                                                        Explain <div [nbSpinner]="isExplaining" *ngIf="isExplaining"
+                                                            nbSpinnerSize="tiny" class="spinner"></div>
+                                                    </div>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button *ngIf="!isQueryRunning" status="primary" size="tiny" nbButton 
+                                                    (click)="runQuery()">Run</button>
+                                                <button *ngIf="isQueryRunning" status="warning" size="tiny" nbButton
+                                                    (click)="cancelQuery()">Cancel</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr
+                                style="font-size: 0.75em; padding: 7px; word-wrap: none; white-space: nowrap; vertical-align: middle;">
+                                <td style="text-align: right; vertical-align: middle;">
+                                    Name:
+                                </td>
+                                <td colspan="4" style="min-width:170px; vertical-align: middle;">
+                                    <input fullWidth fieldSize="small" type="text" nbInput
+                                        [(ngModel)]="appStateService.account.queryName" fieldSize="small"
+                                        shape="semi-round" placeholder="1">
+                                </td>
+                                <td style="padding-left: 7px; vertical-align: middle; max-width: 180px">
+                                    <div style="display: flex; align-items: center;">
+                                        <span>Auto-save</span> <span (click)="explainAutoSave()"
+                                            class="fakeLink">(?)</span>:
+                                        <div style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                            <nb-checkbox *ngIf="allowAutoSave()"
+                                                style="padding: 1px;vertical-align:middle; font-size: 0.8em; "
+                                                status="primary" [(ngModel)]="appStateService.account.autoSaveQuery">
+                                            </nb-checkbox>
+                                        </div>
+                                        <span style="padding-left: 7px;">Append</span> <span (click)="explainAppend()"
+                                            class="fakeLink">(?)</span>: <div
+                                            style="display: inline-block; overflow:hidden; width:15px; height:20px">
+                                            <nb-checkbox style="padding: 1px; font-size: 0.8em; vertical-align:middle; "
+                                                status="primary" [(ngModel)]="currentQueryObj.appendResults">
+                                            </nb-checkbox>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align: right; padding-left: 7px; vertical-align: middle;">
+                                    Depth <span (click)="explainDepth()" class="fakeLink">(?)</span>: <input
+                                        style="width:70px" fieldSize="small" type="text" nbInput
+                                        [(ngModel)]="currentQueryObj.traversalDepth" fieldSize="small"
+                                        shape="semi-round" placeholder="1">
+                                </td>
+                                <td style="text-align: right; padding-left: 7px; vertical-align: middle;">
+                                    Max edges <span (click)="explainMaxEdges()" class="fakeLink">(?)</span> : <input
+                                        style="width: 70px" fieldSize="small" type="text" nbInput
+                                        [(ngModel)]="currentQueryObj.maxEdges" fieldSize="small" shape="semi-round"
+                                        placeholder="1000">
+                                </td>
+                                <td>
+                                    <!-- placeholder for alignment -->
+                                </td>
+                                <td colspan="1" style="text-align: right; padding-left: 7px; vertical-align: middle;">
+                                    Graph DB: {{
+                                    appStateService.getEndpointShortName(appStateService.account.graphDBEndpoint) }}
+                                    <span (click)="changeEndpoint()" class="fakeLink">(change)</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </nb-card-header>
+                    <nb-tabset #queryTabs fullWidth class="tabset">
+                        <nb-tab tabTitle="Results Graphs">
+                            <nb-tabset #graphTabs fullWidth class="tabset"
+                                style="background-color: #07151b; height: 100%">
+                                <nb-tab tabTitle="2D" style="overflow: hidden;" class="noPaddingOrMargins">
+                                    <div #parentGraph1 style="width: 100%; height: 100%;">
+                                        <div scrollable-container style="height:100%; width:100%">
+                                            <div *ngIf="graph2DMessage != ''" [innerHTML]="graph2DMessage"
+                                                style="font-size: 0.8em"></div>
+                                            <div #graph2DContainer></div>
+                                        </div>
+                                    </div>
+                                </nb-tab>
+                                <nb-tab tabTitle="3D" style="overflow: hidden" class="noPaddingOrMargins">
+                                    <div #parentGraph2 style="width: 100%; height: 100%;" (click)="stopAnimation()"
+                                        (mouseenter)="stopAnimation(true)">
+                                        <div scrollable-container style="height:100%; width:100%">
+                                            <div *ngIf="graph3DMessage != ''" [innerHTML]="graph3DMessage"
+                                                style="font-size: 0.8em"></div>
+                                            <div #graph3DContainer></div>
+                                        </div>
+                                    </div>
+                                </nb-tab>
+                                <nb-tab tabTitle="Options">
+                                    <div class="parentScroll1">
+                                        <div class="parentScroll2">
+                                            <table style="font-size: 0.8em">
+                                                <tr>
+                                                    <td>
+                                                        <nb-checkbox
+                                                            [(ngModel)]="appStateService.account.loadGraphWhileStreaming">
+                                                            Load graph while streaming results (note: the graphs are not
+                                                            loaded if their tabs are not selected)</nb-checkbox>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Load graph for every: <input style="width: 100px"
+                                                            fieldSize="small" type="text" nbInput
+                                                            [(ngModel)]="appStateService.account.loadGraphIncrement"
+                                                            fieldSize="small" shape="semi-round" placeholder="10"> query
+                                                        results
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <nb-checkbox [(ngModel)]="appStateService.account.animateGraph">
+                                                            Animate 3D Graph</nb-checkbox>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <nb-checkbox
+                                                            [(ngModel)]="appStateService.account.stopAnimationOnMouseOver">
+                                                            Stop Animation On Mouse Over</nb-checkbox>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </nb-tab>
+                            </nb-tabset>
+                        </nb-tab>
+                        <nb-tab tabTitle="Results Table" style="padding:0px">
+                            <div style="display:flex; flex-direction: column; height:100%; width:100%;">
+                                <div style="width: 100%; text-align: center; background-color: rgba(45, 95, 95, 0.459)">
+                                    ------ Nodes ------</div>
+                                <div scrollable-container style="flex: 1;">
+                                    <table #resultsTableNodes></table>
+                                </div>
+                                <div style="width: 100%; text-align: center; background-color: rgba(45, 95, 95, 0.459)">
+                                    ------ Edges ------</div>
+                                <div scrollable-container style="flex: 1;">
+                                    <table #resultsTableEdges></table>
+                                </div>
+                            </div>
+                        </nb-tab>
+                        <nb-tab tabTitle="Labels" style="padding:0px">
+                            <div style="display:flex; flex-direction: column; height:100%; width:100%;">
+                                <div style="flex: 1; display:flex; flex-direction: row; ">
+                                    <div
+                                        style="flex: 1; display:flex; flex-direction: column; height:100%; width:100%; border-right-width: 1px; border-right-style: solid; ">
+                                        <div
+                                            style="width: 100%; text-align: center; background-color: rgba(45, 95, 95, 0.459)">
+                                            ------ Node Label Mappings <span (click)="explainMapping()"
+                                                class="fakeLink">(?)</span> ------</div>
+                                        <table style="width:100%; font-size: 0.75em;  table-layout: fixed;">
+                                            <tr style="font-weight: bold;">
+                                                <td style="text-align: right; width:20px">
+                                                    Priority
+                                                </td>
+                                                <td style="width:40px">
+                                                    &nbsp;
+                                                </td>
+                                                <td style="width: 250px; overflow:hidden">
+                                                    Property Name
+                                                </td>
+                                                <td style="width: 50px; overflow:hidden">
+                                                    Index
+                                                </td>
+                                                <td>
+                                                    Match Labels
+                                                </td>
+                                                <td style="text-align: center; width: 50px">
+                                                    Prefix ~label
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div scrollable-container style="flex: 1; font-size: 0.9em;">
+                                            <table
+                                                style="width:100%; font-size: 0.8em; font-family: 'Courier New', Courier, monospace; table-layout: fixed;">
+                                                <tr
+                                                    *ngFor="let labelMapping of currentQueryObj.nodeLabelMappings; index as i">
+                                                    <td style="text-align: right; width:20px">
+                                                        {{ i }}.
+                                                    </td>
+                                                    <td style="width:40px">
+                                                        <span (click)="removeNodeLabelMapping(labelMapping)"
+                                                            class="fakeLink2">Remove</span>
+                                                    </td>
+                                                    <td style="width: 250px; overflow:hidden">
+                                                        <input type="text" fullWidth fieldSize="small" status="primary"
+                                                            nbInput [(ngModel)]="labelMapping.propertyName"
+                                                            placeholder="">
+                                                    </td>
+                                                    <td style="width: 50px; overflow:hidden">
+                                                        <input type="text" fullWidth fieldSize="small" status="primary"
+                                                            nbInput [(ngModel)]="labelMapping.index" placeholder="">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" fullWidth fieldSize="small" status="primary"
+                                                            nbInput [(ngModel)]="labelMapping.matchLabels"
+                                                            placeholder="">
+                                                    </td>
+                                                    <td style="text-align: center; width: 50px">
+                                                        <div
+                                                            style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                                            <nb-checkbox
+                                                                style="padding: 1px;vertical-align:middle; font-size: 0.8em; "
+                                                                status="primary"
+                                                                [(ngModel)]="labelMapping.includeLabel"></nb-checkbox>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; display:flex; flex-direction: column; height:100%; width:100%;">
+                                        <div
+                                            style="width: 100%; text-align: center; background-color: rgba(45, 95, 95, 0.459)">
+                                            ------ Edge Label Mappings <span (click)="explainMapping()"
+                                                class="fakeLink">(?)</span> ------</div>
+                                        <table style="width:100%; font-size: 0.75em;  table-layout: fixed;">
+                                            <tr style="font-weight: bold;">
+                                                <td style="text-align: right; width:20px">
+                                                    Priority
+                                                </td>
+                                                <td style="width:40px">
+                                                    &nbsp;
+                                                </td>
+                                                <td style="width: 250px; overflow:hidden">
+                                                    Property Name
+                                                </td>
+                                                <td style="width: 50px; overflow:hidden">
+                                                    Index
+                                                </td>
+                                                <td>
+                                                    Match Labels
+                                                </td>
+                                                <td style="text-align: center; width: 50px">
+                                                    Prefix ~label
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div scrollable-container style="flex: 1; font-size: 0.9em;">
+                                            <table
+                                                style="width:100%; font-size: 0.8em; font-family: 'Courier New', Courier, monospace; table-layout: fixed;">
+                                                <tr
+                                                    *ngFor="let labelMapping of currentQueryObj.edgeLabelMappings; index as i">
+                                                    <td style="text-align: right; width:20px">
+                                                        {{ i }}.
+                                                    </td>
+                                                    <td style="width:40px">
+                                                        <span (click)="removeEdgeLabelMapping(labelMapping)"
+                                                            class="fakeLink2">Remove</span>
+                                                    </td>
+                                                    <td style="width: 250px; overflow:hidden">
+                                                        <input type="text" fullWidth fieldSize="small" status="primary"
+                                                            nbInput [(ngModel)]="labelMapping.propertyName"
+                                                            placeholder="">
+                                                    </td>
+                                                    <td style="width: 50px; overflow:hidden">
+                                                        <input type="text" fullWidth fieldSize="small" status="primary"
+                                                            nbInput [(ngModel)]="labelMapping.index" placeholder="">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" fullWidth fieldSize="small" status="primary"
+                                                            nbInput [(ngModel)]="labelMapping.matchLabels"
+                                                            placeholder="">
+                                                    </td>
+                                                    <td style="text-align: center; width: 50px">
+                                                        <div
+                                                            style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                                            <nb-checkbox
+                                                                style="padding: 1px;vertical-align:middle; font-size: 0.8em; "
+                                                                status="primary"
+                                                                [(ngModel)]="labelMapping.includeLabel"></nb-checkbox>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="flex: 1; display:flex; flex-direction: row;">
+                                    <div
+                                        style="flex: 1; display:flex; flex-direction: column; height:100%; width:100%;  border-right-width: 1px; border-right-style: solid;">
+                                        <div
+                                            style="width: 100%; text-align: center; background-color: rgba(45, 95, 95, 0.459)">
+                                            ------ Learned Node Properties ({{
+                                            getKeys(currentQueryObj.learnedNodeProperties).length }}) ------</div>
+                                        <table style="width:100%; font-size: 0.75em;  table-layout: fixed;">
+                                            <tr style="font-weight: bold;">
+                                                <td style="width:30px">
+
+                                                </td>
+                                                <td style="width: 250px; overflow:hidden">
+                                                    Property Name
+                                                </td>
+                                                <td>
+                                                    Entity Types (labels)
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div scrollable-container style="flex: 1;">
+                                            <table
+                                                style="width:100%; font-size: 0.9em; font-family: 'Courier New', Courier, monospace; table-layout: fixed;">
+                                                <tr class="resultsTable" style="color:limegreen;"
+                                                    *ngFor="let learnedPropertyName of getKeys(currentQueryObj.learnedNodeProperties).sort()">
+                                                    <td style="width:30px">
+                                                        <span
+                                                            (click)="addNodeLabelMappingFromLearned(learnedPropertyName)"
+                                                            class="fakeLink2">Add</span>
+                                                    </td>
+                                                    <td style="width: 250px; overflow:hidden">
+                                                        {{ learnedPropertyName }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                        getKeys(currentQueryObj.learnedNodeProperties[learnedPropertyName]).toString()
+                                                        }}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; display:flex; flex-direction: column; height:100%; width:100%;">
+                                        <div
+                                            style="width: 100%; text-align: center; background-color: rgba(45, 95, 95, 0.459)">
+                                            ------ Learned Edge Properties ({{
+                                            getKeys(currentQueryObj.learnedEdgeProperties).length }}) ------</div>
+                                        <table style="width:100%; font-size: 0.75em; table-layout: fixed;">
+                                            <tr style="font-weight: bold;">
+                                                <td style="width:30px">
+
+                                                </td>
+                                                <td style="width: 250px; overflow:hidden">
+                                                    Property Name
+                                                </td>
+                                                <td>
+                                                    Entity Types (labels)
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div scrollable-container style="flex: 1;">
+                                            <table
+                                                style="width:100%; font-size: 0.9em; font-family: 'Courier New', Courier, monospace; table-layout: fixed;">
+                                                <tr class="resultsTable" style="color:limegreen;"
+                                                    *ngFor="let learnedPropertyName of getKeys(currentQueryObj.learnedEdgeProperties).sort()">
+                                                    <td style="width:30px">
+                                                        <span
+                                                            (click)="addEdgeLabelMappingFromLearned(learnedPropertyName)"
+                                                            class="fakeLink2">Add</span>
+                                                    </td>
+                                                    <td style="width: 250px; overflow:hidden">
+                                                        {{ learnedPropertyName }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                        getKeys(currentQueryObj.learnedEdgeProperties[learnedPropertyName]).toString()
+                                                        }}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-tab>
+                        <nb-tab tabTitle="Saved Queries ({{ savedQueries.length }})">
+                            <div style="display:flex; flex-direction: column; height:100%; width:100%;">
+                                <table style="width: 100%; table-layout: fixed;">
+                                    <tr style="font-size: 0.9em; color: #3eade0; padding: 5px;">
+                                        <td class="graphDBQuery"
+                                            style="width:150px; overflow:hidden; white-space: nowrap;">
+                                            Name
+                                        </td>
+                                        <td class="graphDBQuery"
+                                            style="width:40%; overflow:auto; white-space: nowrap; word-wrap: none;">
+                                            Query
+                                        </td>
+                                        <td class="graphDBQuery"
+                                            style="width:50px; overflow:hidden; white-space: nowrap;">
+                                            Depth
+                                        </td>
+                                        <td class="graphDBQuery"
+                                            style="width:60px; overflow:hidden; white-space: nowrap;">
+                                            Max Edges
+                                        </td>
+                                        <td class="graphDBQuery"
+                                            style="width:50px; overflow:hidden; white-space: nowrap;">
+                                            Append
+                                        </td>
+                                        <td class="graphDBQuery"
+                                            style="width:50px; overflow:hidden; white-space: nowrap;">
+                                            History
+                                        </td>
+                                        <td class="graphDBQuery"
+                                            style="width:70px; overflow:hidden; white-space: nowrap;">
+                                            DB
+                                        </td>
+                                        <td class="graphDBQuery"
+                                            style="width:100px; overflow:hidden; white-space: nowrap;">
+                                            Actions
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div scrollable-container style="height:100%; width:100%">
+                                    <table style="width: 100%; table-layout: fixed;">
+                                        <ng-container *ngFor="let queryObj of savedQueries;">
+                                            <tr style="font-size: 0.8em; color: #3ee061; "
+                                                [ngClass]="{ 'highlight': areQueriesTheSame(currentRunningQueryObj, queryObj) }">
+                                                <td class="graphDBQuery"
+                                                    style="width:150px; overflow:hidden; white-space: nowrap;">
+                                                    {{ queryObj.queryName }}
+                                                </td>
+                                                <td class="graphDBQuery"
+                                                    style="width:40%; overflow:auto; white-space: nowrap; word-wrap: none;">
+                                                    {{ queryObj.query }}
+                                                </td>
+                                                <td class="graphDBQuery"
+                                                    style="width:50px; overflow:hidden; white-space: nowrap;">
+                                                    {{ queryObj.traversalDepth }}
+                                                </td>
+                                                <td class="graphDBQuery"
+                                                    style="width:60px; overflow:hidden; white-space: nowrap;">
+                                                    {{ queryObj.maxEdges }}
+                                                </td>
+                                                <td class="graphDBQuery"
+                                                    style="width:50px; overflow:hidden; white-space: nowrap;">
+                                                    {{ queryObj.appendResults }}
+                                                </td>
+                                                <td class="graphDBQuery"
+                                                    style="width:50px; overflow:hidden; white-space: nowrap;">
+                                                    {{ queryObj.queryHistory.length }}
+                                                </td>
+                                                <td class="graphDBQuery"
+                                                    style="width:70px; overflow:hidden; white-space: nowrap;">
+                                                    {{ getQueryObjEndpointShortName(queryObj) }}
+                                                </td>
+                                                <td class="graphDBQuery"
+                                                    style="width:100px; overflow:hidden; white-space: nowrap;">
+                                                    <span class="fakeLink2"
+                                                        (click)="setCurrentQuery(queryObj)">Select</span>
+                                                    &nbsp;
+                                                    <span class="fakeLink2" (click)="executeQuery(queryObj)">Run</span>
+                                                    &nbsp;
+                                                    <span class="fakeLink2"
+                                                        (click)="promptDeleteQuery(queryObj)">Delete</span>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </table>
+                                </div>
+                            </div>
+                        </nb-tab>
+                        <nb-tab tabTitle="History ({{ currentQueryObj.queryHistory.length }})">
+                            <table style="width: 100%; table-layout: fixed;">
+                                <tr style="font-size: 0.9em; color: #3ee074; padding: 5px;">
+                                    <td class="graphDBQuery" style="width: 30%">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    Query
+                                                </td>
+                                                <td style="padding-left: 10px;">
+                                                    <button *ngIf="!isRunningAllHistory" size="tiny" nbButton
+                                                        (click)="createQueryDownload(null, true)">Download All</button>
+                                                    &nbsp;
+                                                    <button *ngIf="!isRunningAllHistory" size="tiny" nbButton
+                                                        (click)="runAllHistory()">Run All</button>
+                                                    <button *ngIf="isRunningAllHistory" status="warning" size="tiny"
+                                                        nbButton (click)="cancelRunAllHistory()">Cancel</button>
+
+                                                </td>
+                                                <td>
+                                                    <div class="statusContainer" *ngIf="isRunningAllHistory">
+                                                        Running all history now... <div
+                                                            [nbSpinner]="isRunningAllHistory"
+                                                            *ngIf="isRunningAllHistory" nbSpinnerSize="small"
+                                                            class="spinner"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td class="graphDBQuery" style="width: 100px">
+                                        Depth
+                                    </td>
+                                    <td class="graphDBQuery" style="width: 100px">
+                                        Max Edges
+                                    </td>
+                                    <td class="graphDBQuery" style="width: 70px">
+                                        Append
+                                    </td>
+                                    <td class="graphDBQuery" style="width: 100px">
+                                        Result
+                                    </td>
+                                    <td class="graphDBQuery" style="width: 100px">
+                                        DB
+                                    </td>
+                                    <td class="graphDBQuery" style="vertical-align: middle; width: 120px">
+                                        Actions
+                                    </td>
+                                </tr>
+                            </table>
+                            <div scrollable-container style="height:100%; width:100%">
+                                <table style="width: 100%; table-layout: fixed;">
+                                    <ng-container *ngFor="let queryObj of currentQueryObj.queryHistory;">
+                                        <tr style="font-size: 0.8em; color: #3ee061;"
+                                            [ngClass]="{ 'highlight': areQueriesTheSame(currentRunningQueryObj, queryObj) }">
+                                            <td class="graphDBQuery" style="width: 30%">
+                                                <input type="text" fullWidth fieldSize="small" status="primary" nbInput
+                                                    [(ngModel)]="queryObj.query" placeholder=""
+                                                    style="font-family: 'Courier New', Courier, monospace;">
+                                            </td>
+                                            <td class="graphDBQuery" style="width: 100px">
+                                                <input type="text" fullWidth fieldSize="small" status="primary" nbInput
+                                                    [(ngModel)]="queryObj.traversalDepth" placeholder="">
+                                            </td>
+                                            <td class="graphDBQuery" style="width: 100px">
+                                                <input type="text" fullWidth fieldSize="small" status="primary" nbInput
+                                                    [(ngModel)]="queryObj.maxEdges" placeholder="">
+                                            </td>
+                                            <td class="graphDBQuery" style="width: 70px">
+                                                <nb-checkbox [(ngModel)]="queryObj.appendResults">Append</nb-checkbox>
+                                            </td>
+                                            <td class="graphDBQuery" style="width:100px">
+                                                {{ stringify(queryObj.queryResult) }}
+                                            </td>
+                                            <td class="graphDBQuery" style="width:100px">
+                                                {{ getQueryObjEndpointShortName(queryObj) }}
+                                            </td>
+                                            <td class="graphDBQuery" style="width:120px">
+                                                <table>
+                                                    <tr style="padding:2px">
+                                                        <td>
+                                                            <span class="fakeLink2"
+                                                                (click)="cloneQueryObj(queryObj)">Clone</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="fakeLink2"
+                                                                (click)="setCurrentQuery(queryObj)">Select</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="fakeLink2"
+                                                                (click)="executeQuery(queryObj)">Run</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="fakeLink2"
+                                                                (click)="deleteHistoryQuery(queryObj)">Delete</span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </table>
+                            </div>
+                        </nb-tab>
+                        <nb-tab tabTitle="Explain">
+                            <div class="parentScroll1">
+                                <div class="parentScroll2">
+                                    <table style="width:100%; height: 100%; font-size: 0.8em; color: #3ee061; ">
+                                        <tr>
+                                            <td>
+                                                <div *ngIf="queryProfile == '' && !isExplaining">
+                                                    Click "Explain" to run the Graph DB query explain and profiler.
+                                                    <button status="info" size="small" nbButton
+                                                        (click)="profileAndExplainQuery()">
+                                                        <div class="statusContainer">
+                                                            Explain <div [nbSpinner]="isExplaining" *ngIf="isExplaining"
+                                                                nbSpinnerSize="tiny" class="spinner"></div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                                <div class="statusContainer" *ngIf="isExplaining">
+                                                    Currently running explain/profile request...
+                                                    <div [nbSpinner]="isExplaining" *ngIf="isExplaining"
+                                                        nbSpinnerSize="tiny" class="spinner"></div>
+                                                </div>
+                                                <div>
+                                                    <pre style="font-size: 0.8em; color: #3ee061;">
+{{ queryProfile }}
+                          </pre>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <pre style="font-size: 0.8em; color: #3ee061;">
+{{ queryExplain }}
+                          </pre>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </nb-tab>
+                        <nb-tab tabTitle="Graph DB Loader">
+                            <div class="parentScroll1">
+                                <div class="parentScroll2">
+                                    &nbsp;
+                                    <table
+                                        style="width:100%; height: 100%; font-size: 0.8em; color: #3ee061; table-layout: fixed; ">
+                                        <tr style="padding: 10px">
+                                            <td>
+                                                S3 Location:
+                                            </td>
+                                            <td colspan="3">
+                                                <input type="text" fullWidth fieldSize="small" status="primary" nbInput
+                                                    [(ngModel)]="appStateService.account.s3LoadLocation"
+                                                    placeholder="s3://data/001f0bc6-00ce-4081-89d9-c0fb228bc7ca">
+                                            </td>
+                                        </tr>
+                                        <tr style="padding: 10px">
+                                            <td>
+                                                Graph DB Endpoint:
+                                            </td>
+                                            <td colspan="3">
+                                                <input type="text" fullWidth fieldSize="small" status="primary" nbInput
+                                                    [(ngModel)]="appStateService.account.graphDBEndpoint"
+                                                    placeholder="localhost:8182">
+                                            </td>
+                                        </tr>
+                                        <tr style="padding: 10px">
+                                            <td>
+                                                Load Priority:
+                                            </td>
+                                            <td colspan="3">
+                                                <nb-select status="primary" fullWidth style="width:100%" size="tiny"
+                                                    placeholder=""
+                                                    [(ngModel)]="appStateService.account.graphDBLoadPriority">
+                                                    <nb-option selected value="OVERSUBSCRIBE">Max</nb-option>
+                                                    <nb-option selected value="HIGH">High</nb-option>
+                                                    <nb-option value="MEDIUM">Medium</nb-option>
+                                                    <nb-option value="LOW">Low</nb-option>
+                                                </nb-select>
+                                            </td>
+                                        </tr>
+                                        <tr style="padding: 10px">
+                                            <td>
+                                                Graph DB ARN:
+                                            </td>
+                                            <td colspan="3">
+                                                <input type="text" fullWidth fieldSize="small" status="primary" nbInput
+                                                    [(ngModel)]="appStateService.account.graphDBARN" placeholder="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button size="tiny" nbButton (click)="startGraphDBLoad()">Start</button>
+                                            </td>
+                                            <td colspan="3">
+                                                <table style="width: 100%;">
+                                                    <tr>
+                                                        <td style="width:100px">
+                                                            Current load ID:
+                                                        </td>
+                                                        <td style="width:70%">
+                                                            <input type="text" fullWidth fieldSize="small"
+                                                                status="primary" nbInput
+                                                                [(ngModel)]="appStateService.account.currentGraphDBLoadID"
+                                                                placeholder="">
+                                                        </td>
+                                                        <td>
+                                                            <button size="tiny" nbButton
+                                                                (click)="cancelGraphDBLoad()">Cancel</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="vertical-align: top;">
+                                                Load result:
+                                                <div style="width: 400px; overflow:auto; ">
+                                                    <div id="json-renderer-graphdb" class="treeWindow"></div>
+                                                </div>
+                                            </td>
+                                            <td colspan="2">
+                                                <div class="statusContainer">
+                                                    Load status: {{ graphDBLoadStatus }} &nbsp; <div
+                                                        [nbSpinner]="graphDBLoadStatus === 'LOAD_IN_PROGRESS'"
+                                                        *ngIf="graphDBLoadStatus === 'LOAD_IN_PROGRESS'"
+                                                        nbSpinnerSize="tiny" class="spinner"></div>
+                                                </div>
+                                                <div style="width: 400px; overflow:auto">
+                                                    <div id="json-renderer-graphdb-status" class="treeWindow"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </nb-tab>
+                        <nb-tab tabTitle="Notes">
+                            <div class="parentScroll1">
+                                <div class="parentScroll2">
+                                    <table
+                                        style="width:100%; height: 100%; font-size: 0.8em; color: #3ee061; table-layout: fixed; ">
+                                        <tr>
+                                            <td style="padding: 3px; height: 100%; width: 100%">
+                                                <textarea rows="35"
+                                                    style="white-space: nowrap; overflow: auto; width: 100%; height: 100%; font-family: 'Courier New', Courier, monospace; background-color: black; color:chartreuse"
+                                                    [(ngModel)]='currentQueryObj.queryNotes'></textarea>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </nb-tab>
+                        <nb-tab tabTitle="Options">
+                            <div class="parentScroll1">
+                                <div class="parentScroll2">
+                                    <table width="100%; height:100%">
+                                        <tr>
+                                            <td style="border-bottom: 1px; border-bottom-style: solid;">
+                                                Profile Options:
+                                            </td>
+                                            <td style="border-bottom: 1px; border-bottom-style: solid;">
+                                                Query Options:
+                                            </td>
+                                        </tr>
+                                        <tr style="font-size: 0.8em">
+                                            <td style="border-right: 1px; border-right-style: solid;">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox
+                                                                [(ngModel)]="appStateService.account.showGraphEdgeWarningMessage">
+                                                                Show warning message regarding use of inE() or bothE()
+                                                            </nb-checkbox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox
+                                                                [(ngModel)]="appStateService.account.showNonEdgeOrNodeMessage">
+                                                                Show message when query does not return nodes or edges
+                                                            </nb-checkbox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox
+                                                                [(ngModel)]="appStateService.account.showQueryErrorMessageBox">
+                                                                Show detailed error message box</nb-checkbox>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox
+                                                                [(ngModel)]="appStateService.account.switchToGraphOnQueryRun">
+                                                                Switch to graph tab when queries are run</nb-checkbox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox
+                                                                [(ngModel)]="appStateService.account.loadResultsTable">
+                                                                Load results table</nb-checkbox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox
+                                                                [(ngModel)]="appStateService.account.confirmSaveQuery">
+                                                                Confirm save query</nb-checkbox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Max Edges for queries triggered by node/edge clicks on the
+                                                            results graph/table: <input style="width: 100px"
+                                                                fieldSize="small" type="text" nbInput
+                                                                [(ngModel)]="appStateService.account.uiMaxEdges"
+                                                                fieldSize="small" shape="semi-round" placeholder="100">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox [(ngModel)]="currentQueryObj.runOnNavigate">Run
+                                                                the query when someone loads it from its URL (for
+                                                                sharing queries)</nb-checkbox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <nb-checkbox [(ngModel)]="currentQueryObj.allowSave">Allow
+                                                                anyone to modify this query<span
+                                                                    (click)="explainAllowSave()"
+                                                                    class="fakeLink">(?)</span></nb-checkbox>
+                                                            <button
+                                                                *ngIf="currentQueryObj.queryOwner == '' && !appStateService.account.isAnnonymous"
+                                                                size="tiny" nbButton
+                                                                (click)="overrideQueryOwner()">Override Query
+                                                                Owner</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </nb-tab>
+                    </nb-tabset>
+                    <nb-card-footer style="padding:1px">
+                        <table *ngIf="runningQuery != ''" style="width:100%">
+                            <tr>
+                                <td colspan="16"
+                                    style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 0.7em; padding:0px; text-align: center; overflow: hidden; word-wrap: none; border-bottom: 1px; border-bottom-color: rgb(0, 110, 42); border-bottom-style: solid;">
+                                    Left-click a node or edge to load its properties. Right-click a node/edge to
+                                    traverse it by 1 deep and append it to the graph. Remember to name and then save
+                                    your query. After you save your query, you can share the URL.
+                                </td>
+                            </tr>
+                            <tr style="font-size: 0.8em; color:chartreuse; ">
+                                <td style="text-align: right;" class="messageThing">
+                                    Status:
+                                </td>
+                                <td class="messageThing">
+                                    <div class="statusContainer">
+                                        {{ queryStatus }} <div [nbSpinner]="isQueryRunning" *ngIf="isQueryRunning"
+                                            nbSpinnerSize="tiny" class="spinner"></div>
+                                    </div>
+                                </td>
+                                <td class="messageThing infoThing">
+                                    Query: {{ runningQuery }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing infoThing">
+                                    Error:
+                                </td>
+                                <td class="messageThing">
+                                    {{ queryError }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing infoThing">
+                                    Traversal Depth:
+                                </td>
+                                <td style="text-align: right;" class="messageThing">
+                                    {{ runningTraversalDepth }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing infoThing">
+                                    Max Edges:
+                                </td>
+                                <td style="text-align: right;" class="messageThing">
+                                    {{ runningMaxEdges }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing infoThing">
+                                    Append:
+                                </td>
+                                <td style="text-align: right;" class="messageThing">
+                                    {{ runningAppendResults ? 'true':'false' }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing infoThing">
+                                    Edges: {{ currentEdges }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing infoThing">
+                                    Nodes: {{ currentNodes }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing  infoThing">
+                                    Total Edges: {{ totalEdges }}
+                                </td>
+                                <td style="text-align: right;" class="messageThing  infoThing">
+                                    Total Nodes: {{ totalNodes }}
+                                </td>
+                            </tr>
+                        </table>
+                    </nb-card-footer>
+                </nb-card>
+            </div>
+        </td>
+        <td style="width: 25%; height: 100%; padding-bottom: 5px;">
+            <div style="height: 100%; width: 100%; display: flex;">
+                <nb-card class="flexIt noPaddingOrMargins" style="width: 100%;">
+                    <nb-card-header>
+                        <table style="width:100%; font-size: 0.8em;">
+                            <tr>
+                                <td>
+                                    Properties: {{ viewerLabel }}
+                                </td>
+                                <td style="text-align: right;">
+                                    <button *ngIf="selectedNode != null" size="tiny" nbButton
+                                        (click)="runNodeQuery(selectedNode)">Traverse</button>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button size="tiny" nbButton (click)="loadDoc()">Load Source Doc</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div *ngIf="isSourceDocLoaded">
+                                        Download: <a [href]="sourceDocURL" download>{{ viewerID }}</a>
+                                    </div>
+                                    <div *ngIf="!isSourceDocLoaded" class="statusContainer">
+                                        {{ viewerID }} <div [nbSpinner]="isLoadingSourceDoc" *ngIf="isLoadingSourceDoc"
+                                            nbSpinnerSize="tiny" class="spinner"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </nb-card-header>
+                    <div class="parentScroll1">
+                        <div class="parentScroll2">
+                            <div id="json-renderer" class="treeWindow"></div>
+                        </div>
+                    </div>
+                </nb-card>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div style="display: flex; height: 200px; width: 100%">
+                <nb-card class="flexIt noPaddingOrMargins">
+                    <mqtt-logs #mqLogs></mqtt-logs>
+                </nb-card>
+
+            </div>
+        </td>
+    </tr>
+</table>

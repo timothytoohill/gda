@@ -1,0 +1,261 @@
+Employee Name,Project,Customer,Hours
+Anna Mcphee,ABSURD BALL,Wonka Industries,18.6
+Anna Mcphee,ABSURD BALL,Wonka Industries,24.2
+Veronica Lugo,VERUCA SALT,Wonka Industries,31.2
+Veronica Lugo,VERUCA SALT,Wonka Industries,31
+Gene Wilder,VERUCA SALT,Wonka Industries,26
+Gene Wilder,VERUCA SALT,Wonka Industries,21.3
+Gene Wilder,VERUCA SALT,Wonka Industries,23.5
+Gene Wilder,VERUCA SALT,Wonka Industries,24.8
+John Depp,VERUCA SALT,Wonka Industries,14.9
+John Depp,VERUCA SALT,Wonka Industries,13.4
+John Depp,VERUCA SALT,Wonka Industries,14.9
+John Depp,VERUCA SALT,Wonka Industries,27.1
+Lola-Mae Hamilton,CEASELESS CHOCOLATE,Wonka Industries,17.8
+Anne-Marie Frost,WRONG FURNITURE,Acme Corp,23.3
+Anne-Marie Frost,WRONG FURNITURE,Acme Corp,21.2
+Anne-Marie Frost,WRONG FURNITURE,Acme Corp,34.7
+Anne-Marie Frost,WRONG FURNITURE,Acme Corp,20.2
+Jay Heaton,ABORIGINAL TURN,Acme Corp,20.9
+Jay Heaton,ABORIGINAL TURN,Acme Corp,34.9
+Khadeeja Webb,NOISY LAMP,Acme Corp,33.5
+Khadeeja Webb,NOISY LAMP,Acme Corp,24.9
+Khadeeja Webb,NOISY LAMP,Acme Corp,17.7
+Khadeeja Webb,NOISY LAMP,Acme Corp,24
+Khadeeja Webb,NOISY LAMP,Acme Corp,12.2
+Danyaal Graham,FEARLESS FOOD,Acme Corp,29.5
+Danyaal Graham,FEARLESS FOOD,Acme Corp,32.4
+Danyaal Graham,FEARLESS FOOD,Acme Corp,11.1
+Danyaal Graham,FEARLESS FOOD,Acme Corp,34
+Robert Downey,DIFFERENT IRON MAN,Stark Industries,18
+Robert Downey,DIFFERENT IRON MAN,Stark Industries,23.6
+Robert Downey,DIFFERENT IRON MAN,Stark Industries,16.9
+Robert Downey,DIFFERENT IRON MAN,Stark Industries,13.3
+Robert Downey,DIFFERENT IRON MAN,Stark Industries,10.1
+Simrah Dotson,DIFFERENT IRON MAN,Stark Industries,20.9
+Simrah Dotson,DIFFERENT IRON MAN,Stark Industries,29.1
+Simrah Dotson,DIFFERENT IRON MAN,Stark Industries,26
+Gwen Paltrow,PEPPER POT,Stark Industries,20.6
+Gwen Paltrow,PEPPER POT,Stark Industries,20.2
+Gwen Paltrow,PEPPER POT,Stark Industries,16.4
+Gwen Paltrow,PEPPER POT,Stark Industries,32.3
+Maison Bryant,PEPPER POT,Stark Industries,13.4
+Maison Bryant,PEPPER POT,Stark Industries,13.9
+Emma Watson,HERMIONE TEMPER,Olivander's Wand Shop,18.4
+Emma Watson,HERMIONE TEMPER,Olivander's Wand Shop,13
+Emma Watson,HERMIONE TEMPER,Olivander's Wand Shop,21.6
+Rupert Grint,UNRULY RON,Olivander's Wand Shop,32.7
+Rupert Grint,UNRULY RON,Olivander's Wand Shop,29.8
+Rupert Grint,UNRULY RON,Olivander's Wand Shop,31.9
+Danny Radcliffe,PERFECT HARRY,Olivander's Wand Shop,14.9
+Danny Radcliffe,PERFECT HARRY,Olivander's Wand Shop,25.6
+Danny Radcliffe,PERFECT HARRY,Olivander's Wand Shop,16.8
+Danny Radcliffe,PERFECT HARRY,Olivander's Wand Shop,32.2
+Danny Radcliffe,PERFECT HARRY,Olivander's Wand Shop,34.7
+Ollie Stone,RAPID DAUGHTER,Gekko and Co,11.9
+Ollie Stone,RAPID DAUGHTER,Gekko and Co,29.9
+Ollie Stone,RAPID DAUGHTER,Gekko and Co,23.5
+Ollie Stone,RAPID DAUGHTER,Gekko and Co,10.1
+Ollie Stone,RAPID DAUGHTER,Gekko and Co,14.3
+Ollie Stone,RAPID DAUGHTER,Gekko and Co,14.2
+Mike Douglas,DANDY TABLE,Gekko and Co,30.2
+Mike Douglas,DANDY TABLE,Gekko and Co,21.9
+Mike Douglas,DANDY TABLE,Gekko and Co,18.2
+Mike Douglas,DANDY TABLE,Gekko and Co,26.6
+Mike Douglas,DANDY TABLE,Gekko and Co,17.1
+Mike Douglas,DANDY TABLE,Gekko and Co,34.3
+Mike Douglas,DANDY TABLE,Gekko and Co,24.1
+Charles Sheen,GREEDY THREAD,Gekko and Co,14.3
+Charles Sheen,GREEDY THREAD,Gekko and Co,34.2
+Charles Sheen,GREEDY THREAD,Gekko and Co,13
+Charles Sheen,GREEDY THREAD,Gekko and Co,27.7
+Charles Sheen,GREEDY THREAD,Gekko and Co,18.6
+Charles Sheen,GREEDY THREAD,Gekko and Co,10.5
+Chris Bale,DEVOUT BAT,Wayne Enterprises,34.1
+Chris Bale,DEVOUT BAT,Wayne Enterprises,22.4
+Chris Bale,DEVOUT BAT,Wayne Enterprises,27.7
+Chris Bale,DEVOUT BAT,Wayne Enterprises,15.9
+Chris Bale,DEVOUT BAT,Wayne Enterprises,26.2
+Benjamin Affleck,DEVOUT BAT,Wayne Enterprises,11.1
+Benjamin Affleck,DEVOUT BAT,Wayne Enterprises,30
+Benjamin Affleck,DEVOUT BAT,Wayne Enterprises,18.2
+Simrah Dotson,BRIEF AIR,Wayne Enterprises,27.3
+Simrah Dotson,BRIEF AIR,Wayne Enterprises,24.2
+Simrah Dotson,BRIEF AIR,Wayne Enterprises,11.5
+Rob Pattinson,PIQUANT CAPE,Wayne Enterprises,23.2
+Rob Pattinson,PIQUANT CAPE,Wayne Enterprises,20.1
+Miles Dyson,OPEN DESK,Cyberdyne Systems,12.3
+Arnie S.,PSYCHEDELIC TERMINATOR,Cyberdyne Systems,13.5
+Arnie S.,PSYCHEDELIC TERMINATOR,Cyberdyne Systems,13.9
+Arnie S.,PSYCHEDELIC TERMINATOR,Cyberdyne Systems,29.4
+Arnie S.,PSYCHEDELIC TERMINATOR,Cyberdyne Systems,31.4
+Arnie S.,PSYCHEDELIC TERMINATOR,Cyberdyne Systems,18.8
+Arnie S.,PSYCHEDELIC TERMINATOR,Cyberdyne Systems,33.9
+Arnie S.,PSYCHEDELIC TERMINATOR,Cyberdyne Systems,33.2
+Joe Morton,DIREFUL PEAR,Cyberdyne Systems,26.2
+Miles Dyson,PEPPY MATCH,Cyberdyne Systems,20.9
+Miles Dyson,PEPPY MATCH,Cyberdyne Systems,31
+Miles Dyson,PEPPY MATCH,Cyberdyne Systems,13.9
+Joe Morton,ALIVE DRINKS,Cheers,31.8
+Joe Morton,ALIVE DRINKS,Cheers,12.9
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,25.1
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,29.7
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,21
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,33.3
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,17.8
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,17.2
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,32
+Jimmy Gandolfini,BRASH COSANOSTRA,Genco Pura Olive Oil Co.,20.1
+Albert Pacino,PERFECT FRIEND,Genco Pura Olive Oil Co.,23.6
+Albert Pacino,PERFECT FRIEND,Genco Pura Olive Oil Co.,16.1
+Albert Pacino,PERFECT FRIEND,Genco Pura Olive Oil Co.,13.1
+Albert Pacino,PERFECT FRIEND,Genco Pura Olive Oil Co.,27.2
+Albert Pacino,PERFECT FRIEND,Genco Pura Olive Oil Co.,30.3
+Albert Pacino,PERFECT FRIEND,Genco Pura Olive Oil Co.,32.9
+Anna Mcphee,WILLING CITIZEN,New York Daily Inquirer,13.6
+Anna Mcphee,WILLING CITIZEN,New York Daily Inquirer,10.5
+Anna Mcphee,WILLING CITIZEN,New York Daily Inquirer,23.2
+Anna Mcphee,WILLING CITIZEN,New York Daily Inquirer,11.3
+Anna Mcphee,WILLING CITIZEN,New York Daily Inquirer,34.8
+Veronica Lugo,WINGED PLATE,New York Daily Inquirer,28.8
+Anne-Marie Frost,TASTY PIGS,Duff Beer,32.7
+Anne-Marie Frost,TASTY PIGS,Duff Beer,31.7
+Anne-Marie Frost,TASTY PIGS,Duff Beer,10.9
+Maurice Lamarche,LOWLY SIMPSON,Duff Beer,28.1
+Maurice Lamarche,LOWLY SIMPSON,Duff Beer,16.3
+Maurice Lamarche,LOWLY SIMPSON,Duff Beer,14.5
+Maurice Lamarche,LOWLY SIMPSON,Duff Beer,20.1
+Maurice Lamarche,LOWLY SIMPSON,Duff Beer,12.8
+Maurice Lamarche,LOWLY SIMPSON,Duff Beer,18.5
+Hank Azaria,LIVING MOE,Duff Beer,31.4
+Hank Azaria,LIVING MOE,Duff Beer,27.3
+Hank Azaria,LIVING MOE,Duff Beer,34.6
+Hank Azaria,LIVING MOE,Duff Beer,28.7
+Simrah Dotson,FEEBLE PINGPONG,Bubba Gump Shrimp Co.,12.9
+Simrah Dotson,FEEBLE PINGPONG,Bubba Gump Shrimp Co.,31.4
+Simrah Dotson,FEEBLE PINGPONG,Bubba Gump Shrimp Co.,33.1
+Simrah Dotson,FEEBLE PINGPONG,Bubba Gump Shrimp Co.,16
+Lola-Mae Hamilton,CHUNKY KETTLE,Bubba Gump Shrimp Co.,21.7
+Lola-Mae Hamilton,CHUNKY KETTLE,Bubba Gump Shrimp Co.,25.6
+Lola-Mae Hamilton,CHUNKY KETTLE,Bubba Gump Shrimp Co.,12
+Lola-Mae Hamilton,CHUNKY KETTLE,Bubba Gump Shrimp Co.,22
+Charles Sheen,SECOND MEETING,Krusty Krab,10.2
+Charles Sheen,SECOND MEETING,Krusty Krab,17
+Charles Sheen,SECOND MEETING,Krusty Krab,31
+Charles Sheen,SECOND MEETING,Krusty Krab,32.5
+Charles Sheen,GROOVY SPONGE,Krusty Krab,34.5
+Charles Sheen,CHEMICAL BRIDGE,Krusty Krab,27
+Charles Sheen,CHEMICAL BRIDGE,Krusty Krab,17.2
+Charles Sheen,CHEMICAL BRIDGE,Krusty Krab,13.5
+Charles Sheen,CHEMICAL BRIDGE,Krusty Krab,30.9
+Kris Hendricks,UTTERMOST STRAW,Sterling Cooper,33.5
+Kris Hendricks,UTTERMOST STRAW,Sterling Cooper,20.3
+Kris Hendricks,UTTERMOST STRAW,Sterling Cooper,28.4
+Kris Hendricks,UTTERMOST STRAW,Sterling Cooper,23.1
+Lola-Mae Hamilton,MAD MEN,Sterling Cooper,21.4
+Lola-Mae Hamilton,MAD MEN,Sterling Cooper,15.4
+Lola-Mae Hamilton,MAD MEN,Sterling Cooper,33.9
+Lola-Mae Hamilton,MAD MEN,Sterling Cooper,17.2
+Lola-Mae Hamilton,MAD MEN,Sterling Cooper,14.2
+Johnnie Slattery,RAINY MISOGONY,Sterling Cooper,15.4
+Johnnie Slattery,RAINY MISOGONY,Sterling Cooper,34.6
+Johnnie Slattery,RAINY MISOGONY,Sterling Cooper,23.5
+Johnnie Slattery,RAINY MISOGONY,Sterling Cooper,31.4
+Johnnie Slattery,RAINY MISOGONY,Sterling Cooper,27.8
+Johnnie Slattery,RAINY MISOGONY,Sterling Cooper,29.3
+Johnnie Slattery,RAINY MISOGONY,Sterling Cooper,29
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,26.2
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,22.1
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,32
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,30.8
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,19.3
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,30.7
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,31.2
+Johnnie Hamm,VOICELESS DRAPER,Sterling Cooper,16.9
+Johnnie Hamm,OPTIMAL SACK,Sterling Cooper,31.9
+Johnnie Hamm,OPTIMAL SACK,Sterling Cooper,28.5
+Johnnie Hamm,OPTIMAL SACK,Sterling Cooper,18.8
+Johnnie Hamm,OPTIMAL SACK,Sterling Cooper,18.9
+Johnnie Hamm,OPTIMAL SACK,Sterling Cooper,19.8
+Johnnie Hamm,OPTIMAL SACK,Sterling Cooper,23.5
+Lola-Mae Hamilton,UNDESIRABLE PROFIT,Sterling Cooper,26
+Lola-Mae Hamilton,UNDESIRABLE PROFIT,Sterling Cooper,11.9
+Lola-Mae Hamilton,UNDESIRABLE PROFIT,Sterling Cooper,13.7
+Lola-Mae Hamilton,VALUABLE MICE,Sterling Cooper,11.6
+Charlie Heston,DIFFERENT GREEN TANK,Soylent,27.8
+Charlie Heston,DIFFERENT GREEN TANK,Soylent,23.1
+Charlie Heston,DIFFERENT GREEN TANK,Soylent,16.5
+Charlie Heston,DIFFERENT GREEN TANK,Soylent,24.8
+Charlie Heston,DIFFERENT GREEN TANK,Soylent,29.6
+Charlie Heston,DIFFERENT GREEN TANK,Soylent,19.4
+Charlie Heston,DIFFERENT GREEN TANK,Soylent,13.2
+Ehrlich Bachman,WHIMSICAL CHESS,Hooli,14.7
+Ehrlich Bachman,WHIMSICAL CHESS,Hooli,16.9
+Ehrlich Bachman,WHIMSICAL CHESS,Hooli,33.1
+Ehrlich Bachman,FUNNY VALLEY,Hooli,11.7
+Gilfoyle,FIERCE SILICON,Hooli,19.8
+Gilfoyle,FIERCE SILICON,Hooli,17.1
+Gilfoyle,FIERCE SILICON,Hooli,20.8
+Gilfoyle,FIERCE SILICON,Hooli,34.9
+Gilfoyle,FIERCE SILICON,Hooli,34.2
+Gilfoyle,FIERCE SILICON,Hooli,14.1
+Richard Hendricks,FAITHFUL MICE,Hooli,16.3
+Richard Hendricks,CEASELESS MORNING,Hooli,33.6
+Richard Hendricks,CEASELESS MORNING,Hooli,24.6
+Richard Hendricks,CEASELESS MORNING,Hooli,30.5
+Anne-Marie Frost,MOONLIT COMPANY,Good Burger,10.7
+Anne-Marie Frost,MOONLIT COMPANY,Good Burger,28.9
+Anne-Marie Frost,MOONLIT COMPANY,Good Burger,34
+Anne-Marie Frost,URBANE KITTENS,Good Burger,13.9
+Anne-Marie Frost,SHUT COIL,Good Burger,24.1
+Anne-Marie Frost,SHUT COIL,Good Burger,20.1
+Anne-Marie Frost,SHUT COIL,Good Burger,15.7
+Anne-Marie Frost,SHUT COIL,Good Burger,30.9
+Maurice Lamarche,LIMITLESS COFFEE,Glenngarry Glenn Ross,28.3
+Maurice Lamarche,LIMITLESS COFFEE,Glenngarry Glenn Ross,28.7
+Maurice Lamarche,LIMITLESS COFFEE,Glenngarry Glenn Ross,30.2
+Maurice Lamarche,LIMITLESS COFFEE,Glenngarry Glenn Ross,30.5
+Maurice Lamarche,LIMITLESS COFFEE,Glenngarry Glenn Ross,21.1
+Maurice Lamarche,LIMITLESS COFFEE,Glenngarry Glenn Ross,21
+Jack Lemmon,GRIEVING PAIL,Glenngarry Glenn Ross,15.8
+Jack Lemmon,GRIEVING PAIL,Glenngarry Glenn Ross,16.3
+Jack Lemmon,GRIEVING PAIL,Glenngarry Glenn Ross,23
+Jack Lemmon,GRIEVING PAIL,Glenngarry Glenn Ross,28
+Jack Lemmon,GRIEVING PAIL,Glenngarry Glenn Ross,14.1
+Richard Roma,MINDLESS CLOSER,Glenngarry Glenn Ross,20.1
+Richard Roma,MINDLESS CLOSER,Glenngarry Glenn Ross,15.8
+Richard Roma,MINDLESS CLOSER,Glenngarry Glenn Ross,15
+Richard Roma,MINDLESS CLOSER,Glenngarry Glenn Ross,19.1
+Richard Roma,FLAWLESS DISTANCE,Glenngarry Glenn Ross,12
+Richard Roma,FLAWLESS DISTANCE,Glenngarry Glenn Ross,27.1
+Richard Roma,BETTER REGRET,Glenngarry Glenn Ross,34.2
+Albert Pacino,CAPRICIOUS SALESMEN,Glenngarry Glenn Ross,22.9
+Albert Pacino,CAPRICIOUS SALESMEN,Glenngarry Glenn Ross,18.6
+Albert Pacino,CAPRICIOUS SALESMEN,Glenngarry Glenn Ross,32.2
+Albert Pacino,SUPREME STREAM,Glenngarry Glenn Ross,17.8
+Albert Pacino,MELODIC TEAM,Glenngarry Glenn Ross,27.5
+Albert Pacino,WRY BEAD,Glenngarry Glenn Ross,28.4
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,10.3
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,23.3
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,13.3
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,33.1
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,20.6
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,32.8
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,13
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,16.6
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,29.6
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,18.3
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,35
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,15.5
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,19.8
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,26.5
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,27.1
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,19.9
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,13
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,31.5
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,20.4
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,14.3
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,33.3
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,34.2
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,32.6
+Alec Baldwin,BECAUSE I DON'T LIKE YOU,Glenngarry Glenn Ross,12.3

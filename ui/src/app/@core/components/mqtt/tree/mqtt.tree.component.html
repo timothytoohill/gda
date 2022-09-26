@@ -1,0 +1,50 @@
+<nb-tabset fullWidth class="tabset">
+    <nb-tab tabTitle="Topics ({{ topicCount }})" style="padding: 5px">
+        <div class="parentScroll1">
+            <div class="parentScroll2">
+                <div class="mqttTreeWindow">
+                    <table class="mqttTree">
+                        <ng-container *ngFor="let key of sortedTableKeys;">
+                            <tr *ngIf="tableData[key].show && (!tableData[key].isRemoved || tableData[key].isKept)"
+                                (mouseleave)="highlightTopic(null)" (mouseenter)="highlightTopic(tableData[key])"
+                                [ngClass]="{ 'removingHighlight': tableData[key].isRemoving && !tableData[key].isKept, 'activityHighlight': tableData[key].isActive, 'highlight': highlightedTopic ? highlightedTopic.fullTopic == tableData[key].fullTopic : false }">
+                                <td nowrap width="20px" style="cursor: pointer;">
+                                    <nb-checkbox [(ngModel)]="tableData[key].isKept"></nb-checkbox>
+                                </td>
+                                <td nowrap (click)="toggleExpanded(tableData[key])" width="20%">
+                                    <div class="topic">
+                                        <span class="separator">
+                                            {{ getTableSeperator(tableData[key]) }}
+                                        </span>
+                                        <span>
+                                            {{ tableData[key].topic }}
+                                        </span>
+                                        <span *ngIf="tableData[key].treeNode.children.length > 0">
+                                            ({{ tableData[key].treeNode.children.length }})
+                                        </span>
+                                    </div>
+                                </td>
+                                <td nowrap (click)="toggleExpanded(tableData[key])">
+                                    <div class="message" [innerHtml]="tableData[key].message"></div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </nb-tab>
+    <nb-tab tabTitle="Options">
+        <div>
+            <nb-checkbox [(ngModel)]="appStateService.account.mqTreeAutoExpand">Automatically Expand</nb-checkbox>
+        </div>
+        <div>
+            <nb-checkbox [(ngModel)]="appStateService.account.mqTreeAutoPrune">Automatically Prune</nb-checkbox>
+        </div>
+    </nb-tab>
+</nb-tabset>
+<!--
+<div class="currentMessageParent">
+  <div class="currentMessage">{{ currentMessage }}</div>
+</div>
+-->

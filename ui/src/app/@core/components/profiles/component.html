@@ -1,0 +1,65 @@
+<nb-card style="width:100%; padding:5px; min-height:600px">
+    <nb-card-header *ngIf="wTitle != ''">
+        {{wTitle}}
+    </nb-card-header>
+    <nb-card-body>
+        <table class="bothTable" #mainTable style="padding:7px; height:100%; min-height: 500px;">
+            <tr style="height: 100px; font-size: 0.9em; border-bottom: 1px; border-bottom-style:solid">
+                <td colspan="3">
+                    Profiles retain your settings and save automatically.
+                    <br />
+                    <br />
+                    You can use a profile from the list below, you can add one of your own, or you can use anonymously.
+                    NOTE: Profiles are not the same as queries. Queries are saved separately.
+                    <br />
+                    <br />
+                </td>
+            </tr>
+            <tr style="height:50px; font-size: 0.8em; border-bottom: 1px; border-bottom-style:solid">
+                <td>
+                    Name:
+                </td>
+                <td style="padding:10px">
+                    <input type="text" style="font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                        fullWidth fieldSize="small" nbInput [(ngModel)]="profileName" shape="semi-round">
+                </td>
+                <td style="text-align: right;">
+                    <button size="small" nbButton (click)="addAccount()">Add</button>
+                </td>
+            </tr>
+            <tr style="font-size: 0.8em; padding: 5px; min-height: 400px; height: 100%">
+                <td colspan="3" style="vertical-align: top; height: 100%; min-height: 400px;">
+                    <div scrollable-container style="height: 100%; width:100%;">
+                        <table style="width:100%; ">
+                            <ng-container *ngFor="let account of appStateService.allAccounts;">
+                                <tr
+                                    style="color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse">
+                                    <td>
+                                        {{ account.name == '' ? '[Not named]' : account.name }}
+                                    </td>
+                                    <td style="text-align: right; padding:10px">
+                                        <button size="small" nbButton (click)="useAccount(account)">Use Profile</button>
+                                        &nbsp;
+                                        <button size="small" nbButton (click)="deleteAccount(account)">Delete</button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </nb-card-body>
+    <nb-card-footer style="text-align: right;">
+        <table style="width:100%">
+            <tr>
+                <td style="text-align: left;">
+                    <button *ngIf="wTitle == ''" size="small" nbButton (click)="close()">Close</button>
+                </td>
+                <td>
+                    <button size="small" nbButton (click)="useAnonymously()">Use Anonymously</button>
+                </td>
+            </tr>
+        </table>
+    </nb-card-footer>
+</nb-card>

@@ -1,0 +1,46 @@
+<table class="bothTable" #mainTable>
+    <tr>
+        <td colspan="2">
+            For modifying the system configurations.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Password:
+        </td>
+        <td colspan="1" style="vertical-align: middle;">
+            <input type="password" style="font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                fullWidth fieldSize="small" nbInput [(ngModel)]="password" shape="semi-round">
+        </td>
+        <td>
+            &nbsp;
+            <button size="small" nbButton (click)="ok()">Ok</button>
+            &nbsp;
+        </td>
+        <td>
+            &nbsp;
+            <button size="small" nbButton (click)="save()">Save Current Configs</button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            Current (modify as necessary):
+        </td>
+        <td colspan="2">
+            Defaults (for reference - not saved):
+        </td>
+    </tr>
+    <tr>
+
+        <td colspan="2">
+            <textarea rows="35"
+                style="font-size:0.8em; white-space: nowrap; overflow: auto; width: 100%; height: 100%; font-family: 'Courier New', Courier, monospace; background-color: black; color:chartreuse"
+                [(ngModel)]='currentConfigs'></textarea>
+        </td>
+        <td colspan="2">
+            <textarea rows="35"
+                style="font-size:0.8em; white-space: nowrap; overflow: auto; width: 100%; height: 100%; font-family: 'Courier New', Courier, monospace; background-color: black; color:chartreuse"
+                [(ngModel)]='defaultConfigs'></textarea>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,11 @@
+[Unit]
+Description=GDA
+
+[Service]
+Type=oneshot
+ExecStart=[START_SCRIPT]
+ExecStop=[STOP_SCRIPT]
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

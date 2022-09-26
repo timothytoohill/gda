@@ -1,0 +1,20 @@
+<nb-card>
+    <nb-card-header>{{ title }}</nb-card-header>
+    <nb-card-body>
+        <div [innerHtml]="message"></div>
+    </nb-card-body>
+    <nb-card-footer>
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <button *ngIf="showCancel" nbButton hero status="primary" (click)="cancel()">Cancel</button>
+
+                </td>
+                <td style="text-align: right;">
+                    <button nbButton hero status="primary" (click)="dismiss()">Ok</button>
+
+                </td>
+            </tr>
+        </table>
+    </nb-card-footer>
+</nb-card>

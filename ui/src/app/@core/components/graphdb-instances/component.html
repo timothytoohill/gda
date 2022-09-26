@@ -1,0 +1,116 @@
+<nb-card style="width:100%; padding:5px; min-height:600px">
+    <nb-card-header *ngIf="wTitle != ''">
+        {{wTitle}}
+    </nb-card-header>
+    <nb-card-body style="overflow: hidden; display:flex">
+        <div style="flex: 1; display:flex; flex-direction: row; width: 100%">
+            <div style="flex:3">
+                <table class="bothTable" #mainTable style="padding:7px; height:100%; ">
+                    <tr style="height: 100px; font-size: 0.9em; border-bottom: 1px; border-bottom-style:solid">
+                        <td colspan="4">
+                            This is a list of graph DB instances managed by this platform.
+                            <br />
+                            <br />
+                            Each instance can be used as a subgraph and loaded with any of the queries created and saved
+                            in the dashboard.
+                            <br />
+                            <br />
+                        </td>
+                    </tr>
+                    <tr style="height:50px; font-size: 0.8em; border-bottom: 1px; border-bottom-style:solid">
+                        <td>
+                            Name:
+                        </td>
+                        <td style="padding:10px">
+                            <input type="text"
+                                style="font-weight: normal; font-family: 'Courier New', Courier, monospace;" fullWidth
+                                fieldSize="small" nbInput [(ngModel)]="instanceName" shape="semi-round">
+                        </td>
+                        <td colspan="2" style="text-align: left;">
+                            <button size="small" nbButton (click)="add()">Add</button>
+                            &nbsp;
+                            <button size="small" nbButton (click)="refresh(true, true)">Refresh All</button>
+                        </td>
+                    </tr>
+                    <tr style="font-size: 0.8em; padding: 5px; height:100%; min-height:400px">
+                        <td colspan="4" style="vertical-align: top; ">
+                            <div
+                                style="display:flex; flex-flow: row; width:100%; font-size: 1.1em; color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse; ">
+                                <div style="flex: 2; color: white; ">
+                                    Name
+                                </div>
+                                <div style="flex: 5; ">
+                                    Cluster Endpoint
+                                </div>
+                                <div style="flex: 2;">
+                                    Status
+                                </div>
+                                <div style="flex: 2; text-align: center;">
+                                    Action
+                                </div>
+                            </div>
+                            <div scrollable-container style="height: 95%; width:100%; ">
+                                <div
+                                    style="display:flex; flex-flow: column; width:100%; color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse; ">
+                                    <ng-container *ngFor="let obj of appStateService.graphDBInstances;">
+                                        <div
+                                            style="display:flex; flex-flow: row; width:100%; color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse; ">
+                                            <div style="color: white; flex:2">
+                                                {{ appStateService.getEndpointShortName(obj.Endpoint) }}
+                                            </div>
+                                            <div style="flex:5">
+                                                {{ obj.Endpoint }}
+                                            </div>
+                                            <div style="flex:2;">
+                                                <span class="statusContainer">
+                                                    {{ obj.Status }} <div [nbSpinner]="obj.Status != 'available'"
+                                                        *ngIf="obj.Status != 'available'" nbSpinnerSize="small"
+                                                        class="spinner"></div>
+                                                </span>
+                                            </div>
+                                            <div style="flex: 2; text-align: right;">
+                                                <table style="text-align: center;">
+                                                    <tr>
+                                                        <td>
+                                                            <button size="tiny" nbButton (click)="use(obj)">Use This
+                                                                One</button>
+                                                        </td>
+                                                        <td>
+                                                            <button size="tiny" nbButton
+                                                                (click)="properties(obj)">Properties</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <button *ngIf="obj.Endpoint.indexOf('gda') < 0" size="tiny"
+                                                                nbButton (click)="delete(obj)">Delete</button>
+                                                        </td>
+                                                        <td>
+                                                            <button size="tiny" nbButton
+                                                                (click)="load(obj)">Load</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="flex:1; display: flex; flex-direction: column; padding-left: 7px; padding-right: 7px;">
+                <div>
+                    DB Properties:
+                </div>
+                <div scrollable-container style="flex: 1" class="treeWindow">
+                    <div id="json-renderer-nep"></div>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <mqtt-logs #mqLogs style="height:180px; width:100%"></mqtt-logs>
+    </nb-card-footer>
+</nb-card>

@@ -1,0 +1,16 @@
+FROM gda:BaseImage
+
+USER root
+
+COPY ui/uiserver.py ./server.py
+
+COPY ui/dist ./dist
+
+COPY ui/config-service-base-auto-generated.json .
+#COPY ui/config-service-base-auto-generated.json ./dist/assets/data/config-service-base-auto-generated.json
+COPY ui/config-service.json .
+
+EXPOSE 18081
+
+ENTRYPOINT [ "./server.py" ]
+

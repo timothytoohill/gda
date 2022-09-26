@@ -1,0 +1,6 @@
+FROM datastax/dse-server:6.8.26
+
+ENV DS_LICENSE=accept
+
+EXPOSE 8182
+EXPOSE 9042

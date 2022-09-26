@@ -1,0 +1,29 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+    display: flex !important;
+    flex: 1;
+
+    .bothMQTT {
+        width: 100%;
+        height: 100%;
+        table-layout: fixed;
+    }
+
+    .bothMQTT2 {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        padding: 2px;
+    }
+
+    .flexIt {
+        display: flex !important;
+        flex: 1;
+    }
+
+    .noPaddingOrMargins {
+        padding: 0;
+        margin: 0;
+    }
+}

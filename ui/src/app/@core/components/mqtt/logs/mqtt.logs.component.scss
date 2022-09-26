@@ -1,0 +1,40 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+    flex: 1;
+    display: flex;
+    
+    .tabset {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .content-active {
+        display: flex;
+        flex: 1;
+    }
+
+    .parentScroll1 {
+        display: block;
+        flex: 1;
+        position: relative;
+    }
+
+    .parentScroll2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mqttLogWindow {
+        font-family: 'Courier New', Courier, monospace; 
+        font-size: 8pt; 
+        color: yellowgreen; 
+        white-space: nowrap;
+    }
+}

@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/browserMqtt.js"></script>
+    <script src="/assets/js/browserOboe.js"></script>
+
+    <script src="/assets/js/json-viewer/jquery.json-viewer.js"></script>
+    <link href="/assets/js/json-viewer/jquery.json-viewer.css" type="text/css" rel="stylesheet">
+
+    <script src="/assets/js/three.js"></script>
+    <script src="/assets/js/three-spritetext.js"></script>
+    <script src="/assets/js/3d-force-graph.js"></script>
+    <script src="/assets/js/force-graph.js"></script>
+
+    <script src="/assets/js/table-resize.js"></script>
+
+    <base href="/">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        .resultsTable:hover {
+            background-color: rgba(45, 95, 95, 0.459) !important;
+            color: #000000;
+        }
+
+        .resultsTable td {
+            border-bottom: 1px;
+            border-bottom-color: rgb(0, 110, 42);
+            border-bottom-style: solid;
+            border-left: 1px;
+            border-left-color: black;
+            border-left-style: solid;
+            border-right: 1px;
+            border-right-color: black;
+            border-right-style: solid;
+            word-wrap: none;
+            color: chartreuse;
+            font-size: 0.8em;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .noPaddingOrMargins nb-card nb-card-body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .windowClassNI nb-card nb-card-body {
+            padding: 0;
+            margin: 0;
+            width: 1000px;
+        }
+    </style>
+</head>
+
+<body>
+    <app>Loading...</app>
+
+    <style>
+        @-webkit-keyframes spin {
+            0% {
+                transform: rotate(0)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        @-moz-keyframes spin {
+            0% {
+                -moz-transform: rotate(0)
+            }
+
+            100% {
+                -moz-transform: rotate(360deg)
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        .spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1003;
+            background: #000000;
+            overflow: hidden
+        }
+
+        .spinner div:first-child {
+            display: block;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border-radius: 50%;
+            box-shadow: 0 3px 3px 0 rgba(255, 56, 106, 1);
+            transform: translate3d(0, 0, 0);
+            animation: spin 2s linear infinite
+        }
+
+        .spinner div:first-child:after,
+        .spinner div:first-child:before {
+            content: '';
+            position: absolute;
+            border-radius: 50%
+        }
+
+        .spinner div:first-child:before {
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            box-shadow: 0 3px 3px 0 rgb(255, 228, 32);
+            -webkit-animation: spin 3s linear infinite;
+            animation: spin 3s linear infinite
+        }
+
+        .spinner div:first-child:after {
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            box-shadow: 0 3px 3px 0 rgba(61, 175, 255, 1);
+            animation: spin 1.5s linear infinite
+        }
+    </style>
+    <div id="nb-global-spinner" class="spinner">
+        <div class="blob blob-0"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
+    </div>
+
+</body>
+
+</html>

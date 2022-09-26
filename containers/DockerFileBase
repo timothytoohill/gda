@@ -1,0 +1,6 @@
+FROM centos:7.9.2009
+
+COPY libraries libraries
+COPY infrastructure infrastructure
+COPY containers/runWithLogging.py .
+RUN infrastructure/01-installEnvironment.sh

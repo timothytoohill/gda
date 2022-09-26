@@ -1,0 +1,87 @@
+{
+    "appOrganization": "inv",
+    "appName": "gda", 
+    "branch": "dev",
+    "deriveBranchFromGit": false,
+    "thisService": "",
+
+    "aws": {
+        "usingAWS": false,
+        "s3BucketName": "",
+        "s3ConfigFileName": "",
+        "loadConfigsFromS3": false,
+        "vpcID": "",
+        "availabilityZones": [""],
+        "subnets": [""],
+        "securityGroups": [""],
+        "tags":  [ { "Key": "Project", "Value": "ProjectName" } ],
+        "tagsL": [ { "key": "project", "value": "ProjectName" } ]
+    },
+
+    "appServices": {
+        "ui": {
+            "footerText": "<b>Created by:</b> Timothy Toohill <a href='https://github.com/timothytoohill' target='_blank'><i class='ion ion-social-github' style='font-size:30px'></i></a>"
+        },
+        "api": {
+            "usesLocalConfigs": false
+        },
+        "relationaldb": {
+            "directory": "./relationaldb",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileRelationalDB",
+            "usesLocalConfigs": false,
+            "address": "",
+            "port": "5432",
+            "username": "postgres",
+            "password": "password",
+            "initialDatabaseName": "",
+            "useRDS": false,
+            "rds": {
+                "username": "",
+                "password": ""
+            },
+            "sqlScripts": { 
+                "init": "",
+                "extensions": "",
+                "lists": "",
+                "lists_data": "",
+                "lists_subscribers": ""
+            },
+            "ports": [5432]
+        },
+        "mq": {
+            "directory": "./mq",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileMQ",
+            "usesLocalConfigs": false,
+            "address": "",
+            "port": 1883,
+            "wsport": 9001,
+            "username": "inv",
+            "password": "",
+            "ports": [1883, 9001]
+        },
+        "graphdb": {
+            "directory": "./graphdb",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileGraphDB",
+            "usesLocalConfigs": false,
+            "ports": [9042]
+        },
+        "graphindex": {
+            "directory": "./graphindex",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileGraphIndex",
+            "usesLocalConfigs": false,
+            "ports": [9200, 9300]
+        },
+        "gremlinserver": {
+            "directory": "./gremlinserver",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileGremlinServer",
+            "usesLocalConfigs": false,
+            "address": "",
+            "ports": [8182, 9042]
+        }
+    }
+}

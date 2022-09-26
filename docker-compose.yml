@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+    mq:
+        image: "timothytoohill/gda:mq"
+        container_name: mq
+        ports:
+            - "9001:9001"
+            - "1883:1883"
+    relationaldb:
+        image: "timothytoohill/gda:relationaldb"
+        container_name: relationaldb
+        ports:
+            - "5432:5432"
+    gremlinserver:
+        image: "timothytoohill/gda:gremlinserver"
+        container_name: gremlinserver
+        command: -g -s
+        ports:
+            - "8182:8182"
+            - "9042:9042"
+    api:
+      image: "timothytoohill/gda:api"
+      container_name: api
+      ports:
+          - "18080:18080"
+      volumes:
+          - ${PWD}/libraries/configs/base.json:/libraries/configs/base.json
+      depends_on:
+          - relationaldb
+          - mq
+          - gremlinserver
+    ui:
+      image: "timothytoohill/gda:ui"
+      container_name: ui
+      ports:
+          - "18081:18081"
+      volumes:
+          - ${PWD}/libraries/configs/base.json:/libraries/configs/base.json
+      depends_on:
+          - api

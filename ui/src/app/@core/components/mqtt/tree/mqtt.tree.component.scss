@@ -1,0 +1,109 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    
+    .separator {
+        width: 100%; 
+        overflow: hidden; 
+        word-wrap: none;
+        font-size: 7pt;
+        color: #2c795f
+    }
+
+    .message {
+        padding-left: 5px;  
+        color: rgb(56, 228, 70)
+    }
+
+    .topic {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .mqttTree {
+        table-layout: fixed; 
+        width: 100%; 
+        font-size: 8pt; 
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .mqttTreeWindow {
+        font-family: 'Courier New', Courier, monospace; 
+        font-size: 8pt; 
+        color: yellowgreen; 
+        white-space: nowrap;
+        overflow: auto;
+        border: 1px;
+        border-color: yellowgreen;
+    }
+
+    .currentMessageParent {
+        padding: 3px;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .currentMessage {
+        font-family: 'Courier New', Courier, monospace; 
+        font-size: 8pt; 
+        background-color: rgb(31, 29, 39);
+        color: yellowgreen; 
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .tabset {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .content-active {
+        display: flex;
+        flex: 1;
+    }
+
+    .parentScroll1 {
+        display: block;
+        flex: 1;
+        position: relative;
+    }
+
+    .parentScroll2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    table tr.activityHighlight {
+        background-color: rgb(0, 97, 136) !important;
+        color: #ffffff;
+        font-weight: bolder;
+    }
+    
+    table tr.highlight {
+        background-color: rgb(112, 155, 114) !important;
+        color: #000000;
+        font-weight: bolder;
+    }
+    
+    table tr.removingHighlight {
+        background-color: rgb(131, 5, 5) !important;
+        color: #ecf8f4;
+        font-weight: bolder;
+    }
+
+
+}

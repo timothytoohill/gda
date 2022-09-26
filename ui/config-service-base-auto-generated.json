@@ -1,0 +1,162 @@
+{
+    "appOrganization": "inv",
+    "appName": "gda",
+    "branch": "dev",
+    "deriveBranchFromGit": false,
+    "thisService": "ui",
+    "aws": {
+        "usingAWS": false,
+        "s3BucketName": "",
+        "s3ConfigFileName": "",
+        "loadConfigsFromS3": false,
+        "vpcID": "",
+        "availabilityZones": [
+            ""
+        ],
+        "subnets": [
+            ""
+        ],
+        "securityGroups": [
+            ""
+        ],
+        "tags": [
+            {
+                "Key": "Project",
+                "Value": "ProjectName"
+            }
+        ],
+        "tagsL": [
+            {
+                "key": "project",
+                "value": "ProjectName"
+            }
+        ],
+        "loadBalancerScheme": "internal",
+        "autoScaleCPUPercent": 50,
+        "autoScaleMemPercent": 50
+    },
+    "appServices": {
+        "ui": {
+            "footerText": "<b>Created by:</b> Timothy Toohill <a href='https://github.com/timothytoohill' target='_blank'><i class='ion ion-social-github' style='font-size:30px'></i></a>",
+            "port": 18081,
+            "address": "",
+            "directory": "./ui",
+            "preBuildScript": "uicompile.sh",
+            "dockerFileLocation": "DockerFileUI",
+            "minContainers": 1,
+            "desiredContainers": 1,
+            "maxContainers": 100,
+            "cpu": 512,
+            "memory": 1024,
+            "autoScale": true,
+            "healthCheckPath": "/healthcheck",
+            "usesLocalConfigs": true,
+            "mq": {
+                "address": "",
+                "port": 1883,
+                "wsport": 9001
+            },
+            "sqlScripts": {},
+            "fullName": "inv-gda-dev-ui"
+        },
+        "api": {
+            "usesLocalConfigs": false,
+            "port": 18080,
+            "address": "",
+            "directory": "./api",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileAPI",
+            "minContainers": 1,
+            "desiredContainers": 1,
+            "maxContainers": 100,
+            "cpu": 1024,
+            "memory": 8192,
+            "autoScale": true,
+            "healthCheckPath": "/healthcheck",
+            "sqlScripts": {
+                "accounts": "",
+                "graphdb_queries": "",
+                "graphdb_downloads": "",
+                "jobs": ""
+            },
+            "fullName": "inv-gda-dev-api"
+        },
+        "relationaldb": {
+            "directory": "./relationaldb",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileRelationalDB",
+            "usesLocalConfigs": false,
+            "address": "",
+            "port": "5432",
+            "username": "postgres",
+            "password": "password",
+            "initialDatabaseName": "",
+            "useRDS": false,
+            "rds": {
+                "username": "",
+                "password": ""
+            },
+            "sqlScripts": {
+                "init": "",
+                "extensions": "",
+                "lists": "",
+                "lists_data": "",
+                "lists_subscribers": ""
+            },
+            "ports": [
+                5432
+            ],
+            "fullName": "inv-gda-dev-relationaldb"
+        },
+        "mq": {
+            "directory": "./mq",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileMQ",
+            "usesLocalConfigs": false,
+            "address": "",
+            "port": 1883,
+            "wsport": 9001,
+            "username": "inv",
+            "password": "",
+            "ports": [
+                1883,
+                9001
+            ],
+            "fullName": "inv-gda-dev-mq"
+        },
+        "graphdb": {
+            "directory": "./graphdb",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileGraphDB",
+            "usesLocalConfigs": false,
+            "ports": [
+                9042
+            ],
+            "fullName": "inv-gda-dev-graphdb"
+        },
+        "graphindex": {
+            "directory": "./graphindex",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileGraphIndex",
+            "usesLocalConfigs": false,
+            "ports": [
+                9200,
+                9300
+            ],
+            "fullName": "inv-gda-dev-graphindex"
+        },
+        "gremlinserver": {
+            "directory": "./gremlinserver",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileGremlinServer",
+            "usesLocalConfigs": false,
+            "address": "",
+            "ports": [
+                8182,
+                9042
+            ],
+            "fullName": "inv-gda-dev-gremlinserver"
+        }
+    },
+    "defaultAddress": ""
+}

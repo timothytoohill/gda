@@ -1,0 +1,7 @@
+{
+    "thisService": "ui",
+    "appServices": {
+        "ui": {
+        }
+    }
+}

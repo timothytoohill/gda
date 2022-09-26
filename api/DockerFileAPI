@@ -1,0 +1,25 @@
+FROM gda:BaseImage
+
+USER root
+
+COPY api/sql ./sql
+COPY api/janus ./janus
+COPY api/neptune ./neptune
+COPY api/accounts.py ./accounts.py
+COPY api/api.py ./api.py
+COPY api/compute.py ./compute.py
+COPY api/graphdb_connection.py ./graphdb_connection.py
+COPY api/graphdb_downloads.py ./graphdb_downloads.py
+COPY api/graphdb_queries.py ./graphdb_queries.py
+COPY api/graphdb.py ./graphdb.py
+COPY api/jobs.py ./jobs.py
+
+COPY api/server.py ./server.py
+
+#COPY api/config-service-base-auto-generated.json .
+COPY api/config-service.json .
+
+EXPOSE 18080
+
+ENTRYPOINT [ "./server.py" ]
+

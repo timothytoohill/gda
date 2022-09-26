@@ -1,0 +1,32 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": [
+            "rds.amazonaws.com",
+            "es.amazonaws.com",
+            "appstream.application-autoscaling.amazonaws.com",
+            "ecs.amazonaws.com",
+            "s3.amazonaws.com",
+            "ecs-tasks.amazonaws.com",
+            "autoscaling.amazonaws.com",
+            "ecs.application-autoscaling.amazonaws.com",
+            "elasticmapreduce.amazonaws.com",
+            "ec2.application-autoscaling.amazonaws.com",
+            "elasticfilesystem.amazonaws.com",
+            "elasticloadbalancing.amazonaws.com",
+            "iot.amazonaws.com",
+            "application-autoscaling.amazonaws.com",
+            "firehose.amazonaws.com",
+            "logs.amazonaws.com",
+            "ec2.amazonaws.com",
+          ],
+          "AWS": "*"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  }

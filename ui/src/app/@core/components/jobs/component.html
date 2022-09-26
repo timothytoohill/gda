@@ -1,0 +1,659 @@
+<nb-card style="width:100%; padding:5px; min-height:600px">
+    <nb-card-header *ngIf="wTitle != ''">
+        {{wTitle}}
+    </nb-card-header>
+    <nb-card-body style="overflow: hidden; display:flex">
+        <div style="flex: 1; display:flex; flex-direction: row; width: 100%">
+            <div style="flex:4">
+                <table class="bothTable" #mainTable style="padding:7px; height:100%; ">
+                    <tr style="font-size: 0.9em; border-bottom: 1px; border-bottom-style:solid">
+                        <td colspan="6">
+                            This is a list of Jobs. You can create load jobs and entity resolution jobs.
+                        </td>
+                    </tr>
+                    <tr style="height:50px; font-size: 0.8em; border-bottom: 1px; border-bottom-style:solid">
+                        <td colspan="6">
+                            <div
+                                style="display:flex; flex-flow: row; width:100%; font-size: 1.1em; color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse; ">
+                                <div style="vertical-align: middle; text-align: right; border-right: 1px; border-right-style: solid;"
+                                    class="outer">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="text-align: right;">
+                                                Name:
+                                            </td>
+                                            <td style=" padding: 10px">
+                                                <input type="text"
+                                                    style="width: 200px; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                    fieldSize="tiny" nbInput [(ngModel)]="job.name" shape="semi-round">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;">
+                                                Type:
+                                            </td>
+                                            <td style=" padding: 10px">
+                                                <nb-select style="width:200px" size="tiny" placeholder=""
+                                                    [(ngModel)]="job.type">
+                                                    <nb-option value="graphDBLoad">Load</nb-option>
+                                                    <nb-option value="entityResolution">Entity Resolution</nb-option>
+                                                </nb-select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div *ngIf="job.type == 'graphDBLoad'"
+                                    style="flex: 1; padding: 10px; border-right: 1px; border-right-style: solid; padding:10px"
+                                    class="outer">
+                                    <table style="width: 100%">
+                                        <tr style="padding: 10px">
+                                            <td style="text-align: right; width:70px">
+                                                Souce:
+                                            </td>
+                                            <td>
+                                                <nb-select [disabled]="getKeys(job.selectedQuery1).length > 0" fullWidth
+                                                    style="width:100%" size="tiny" placeholder=""
+                                                    [(ngModel)]="job.sourceInstance" [(selected)]="job.sourceInstance">
+                                                    <nb-option selected value="">--- Please select ---</nb-option>
+                                                    <nb-option *ngFor="let obj of appStateService.graphDBInstances;"
+                                                        [value]="obj.Endpoint">{{
+                                                        appStateService.getEndpointShortName(obj.Endpoint) }}
+                                                    </nb-option>
+                                                </nb-select>
+                                            </td>
+                                        </tr>
+                                        <tr style="padding: 10px">
+                                            <td
+                                                style="text-align: right; vertical-align: top; white-space: nowrap; width:70px">
+                                                Destination: <span (click)="explainLoad()" class="fakeLink">(?)</span>
+                                            </td>
+                                            <td>
+                                                <nb-select style="width:100%" fullWidth size="tiny" placeholder=""
+                                                    [(ngModel)]="job.destInstance" [(selected)]="job.destInstance">
+                                                    <nb-option selected value="">--- Please select ---</nb-option>
+                                                    <nb-option *ngFor="let obj of appStateService.graphDBInstances;"
+                                                        [value]="obj.Endpoint">{{
+                                                        appStateService.getEndpointShortName(obj.Endpoint) }}
+                                                    </nb-option>
+                                                </nb-select>
+                                            </td>
+                                        </tr>
+                                        <tr style="padding: 10px">
+                                            <td
+                                                style="text-align: right; vertical-align: top; white-space: nowrap; width:70px">
+                                                Load Query:</td>
+                                            <td>
+                                                <table style="width: 100%;">
+                                                    <tr>
+                                                        <td>
+                                                            <nb-select (selectedChange)="changeSelectedQuery1()"
+                                                                style="width:100%" fullWidth size="tiny" placeholder=""
+                                                                [(ngModel)]="job.selectedQuery1"
+                                                                [(selected)]="job.selectedQuery1">
+                                                                <nb-option selected [value]="usePropertyQuery">--- Use
+                                                                    Entity Property ---</nb-option>
+                                                                <nb-option [value]="null">--- Use Maunual Query ---
+                                                                </nb-option>
+                                                                <nb-option
+                                                                    *ngFor="let obj of appStateService.savedQueries;"
+                                                                    [value]="obj">
+                                                                    <table
+                                                                        style="font-weight: normal; font-family: 'Courier New', Courier, monospace; font-size:0.9em">
+                                                                        <tr>
+                                                                            <td><span style="color: chartreuse">{{
+                                                                                    obj.queryName }} ({{
+                                                                                    obj.queryHistory.length }}):</span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span>{{ obj.query }}</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span style="font-weight: bold;">({{
+                                                                                    appStateService.getEndpointShortName(obj.graphDBEndpoint)
+                                                                                    }})</span></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </nb-option>
+                                                            </nb-select>
+                                                        </td>
+                                                        <td colspan="1">
+                                                            <nb-select
+                                                                (selectedChange)="changeSelectedEntityProperty1()"
+                                                                *ngIf="job.selectedQuery1 === usePropertyQuery"
+                                                                fullWidth style="width:100%" size="tiny" placeholder=""
+                                                                [(ngModel)]="job.entityProperty1"
+                                                                [(selected)]="job.entityProperty1">
+                                                                <nb-option *ngFor="let key of entityProperties.sort();"
+                                                                    [value]="key">{{ key }}</nb-option>
+                                                            </nb-select>
+                                                        </td>
+                                                        <td style="white-space: nowrap; text-align: right;">
+                                                            <span *ngIf="getKeys(job.selectedQuery1).length > 0 ">
+                                                                Use History:
+                                                                <div
+                                                                    style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                                                    <nb-checkbox
+                                                                        style="padding: 1px;vertical-align:middle; font-size: 0.8em; "
+                                                                        status="primary" [(ngModel)]="job.useHistory1">
+                                                                    </nb-checkbox>
+                                                                </div>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="padding: 10px">
+                                                        <td colspan="3">
+                                                            <input
+                                                                [disabled]="getKeys(job.selectedQuery1).length > 0 || job.selectedQuery1 === usePropertyQuery"
+                                                                nbInput fullWidth status="primary" fieldSize="tiny"
+                                                                type="text"
+                                                                style="font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                [(ngModel)]="job.query1">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div *ngIf="job.type == 'entityResolution'"
+                                    style="flex: 1; padding: 10px; border-right: 1px; border-right-style: solid; padding:10px"
+                                    class="outer">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width:40%">
+                                                <table style="width: 100%;">
+                                                    <tr>
+                                                        <td style="text-align: right;font-size: 0.9em;">
+                                                            Algorithm:
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <nb-select style="width:100%" size="tiny" placeholder=""
+                                                                [(ngModel)]="job.algorithm"
+                                                                [(selected)]="job.algorithm">
+                                                                <nb-option selected value="">--- Please select ---
+                                                                </nb-option>
+                                                                <nb-option value="wratio">WRatio (label: wratio)
+                                                                </nb-option>
+                                                                <nb-option value="geoNames">GeoNames (label: geoNames)
+                                                                </nb-option>
+                                                            </nb-select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="padding: 10px">
+                                                        <td style="text-align: right;font-size: 0.9em;">
+                                                            Instance:
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <nb-select style="width:100%" size="tiny" placeholder=""
+                                                                [(ngModel)]="job.sourceInstance"
+                                                                [(selected)]="job.sourceInstance">
+                                                                <nb-option selected value="">--- Please select ---
+                                                                </nb-option>
+                                                                <nb-option
+                                                                    *ngFor="let obj of appStateService.graphDBInstances;"
+                                                                    [value]="obj.Endpoint">{{
+                                                                    appStateService.getEndpointShortName(obj.Endpoint)
+                                                                    }}</nb-option>
+                                                            </nb-select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="white-space: nowrap; text-align: right;font-size: 0.9em;">
+                                                            Threshold:
+                                                        </td>
+                                                        <td>
+                                                            <input nbInput status="primary" fieldSize="tiny" type="text"
+                                                                style="width: 100%; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                [(ngModel)]="job.threshold">
+                                                        </td>
+                                                        <td
+                                                            style="white-space: nowrap; text-align: right;font-size: 0.9em;">
+                                                            ThreadLITime(s):
+                                                        </td>
+                                                        <td>
+                                                            <input nbInput status="primary" fieldSize="tiny" type="text"
+                                                                style="width: 100%; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                [(ngModel)]="job.threadLeadInTimeSeconds">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="white-space: nowrap; text-align: right;font-size: 0.9em;">
+                                                            SThreadCount:
+                                                        </td>
+                                                        <td>
+                                                            <input nbInput status="primary" fieldSize="tiny" type="text"
+                                                                style="width: 100%; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                [(ngModel)]="job.startThreadCount">
+                                                        </td>
+                                                        <td
+                                                            style="white-space: nowrap; text-align: right;font-size: 0.9em;">
+                                                            MThreadCount:
+                                                        </td>
+                                                        <td>
+                                                            <input nbInput status="primary" fieldSize="tiny" type="text"
+                                                                style="width: 100%; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                [(ngModel)]="job.maxThreadCount">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="white-space: nowrap; text-align: right;font-size: 0.9em;">
+                                                            Add Edges:
+                                                        </td>
+                                                        <td>
+                                                            <div
+                                                                style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                                                <nb-checkbox
+                                                                    style="padding: 1px;vertical-align:middle; font-size: 0.8em; "
+                                                                    status="primary" [(ngModel)]="job.addEdges">
+                                                                </nb-checkbox>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            style="white-space: nowrap; text-align: right;font-size: 0.9em;">
+                                                            Bidirectional:
+                                                        </td>
+                                                        <td>
+                                                            <div
+                                                                style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                                                <nb-checkbox
+                                                                    style="padding: 1px;vertical-align:middle; font-size: 0.8em; "
+                                                                    status="primary" [(ngModel)]="job.bidirectional">
+                                                                </nb-checkbox>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="white-space: nowrap; text-align: right;font-size: 0.9em;">
+                                                            Batch Size:
+                                                        </td>
+                                                        <td>
+                                                            <input nbInput status="primary" fieldSize="tiny" type="text"
+                                                                style="width: 100%; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                [(ngModel)]="job.batchSize">
+                                                        </td>
+                                                        <td colspan="2">
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="width:60%">
+                                                <table style="width: 100%;">
+                                                    <tr style="padding: 5px">
+                                                        <td
+                                                            style="text-align: right; vertical-align: top; white-space: nowrap;font-size: 0.9em;">
+                                                            Query 1:</td>
+                                                        <td colspan="3">
+                                                            <table style="width: 100%;">
+                                                                <tr>
+                                                                    <td>
+                                                                        <nb-select
+                                                                            (selectedChange)="changeSelectedQuery1()"
+                                                                            style="width:100%" size="tiny"
+                                                                            placeholder=""
+                                                                            [(ngModel)]="job.selectedQuery1"
+                                                                            [(selected)]="job.selectedQuery1">
+                                                                            <nb-option selected
+                                                                                [value]="usePropertyQuery">--- Use
+                                                                                Entity Property ---</nb-option>
+                                                                            <nb-option [value]="null">--- Use Maunual
+                                                                                Query ---</nb-option>
+                                                                            <nb-option
+                                                                                *ngFor="let obj of appStateService.savedQueries;"
+                                                                                [value]="obj">
+                                                                                <table
+                                                                                    style="font-weight: normal; font-family: 'Courier New', Courier, monospace; font-size:0.9em">
+                                                                                    <tr>
+                                                                                        <td><span
+                                                                                                style="color: chartreuse">{{
+                                                                                                obj.queryName }} ({{
+                                                                                                obj.queryHistory.length
+                                                                                                }}):</span></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><span>{{ obj.query }}</span>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><span
+                                                                                                style="font-weight: bold;">({{
+                                                                                                appStateService.getEndpointShortName(obj.graphDBEndpoint)
+                                                                                                }})</span></td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </nb-option>
+                                                                        </nb-select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <nb-select
+                                                                            (selectedChange)="changeSelectedEntityProperty1()"
+                                                                            *ngIf="job.selectedQuery1 === usePropertyQuery"
+                                                                            style="width:100%" size="tiny"
+                                                                            placeholder=""
+                                                                            [(ngModel)]="job.entityProperty1"
+                                                                            [(selected)]="job.entityProperty1">
+                                                                            <nb-option
+                                                                                *ngFor="let key of entityProperties.sort();"
+                                                                                [value]="key">{{ key }}</nb-option>
+                                                                        </nb-select>
+                                                                    </td>
+                                                                    <td
+                                                                        style="white-space: nowrap; font-size: 0.9em;text-align: right;">
+                                                                        <span
+                                                                            *ngIf="getKeys(job.selectedQuery1).length > 0">
+                                                                            Use History:
+                                                                            <div
+                                                                                style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                                                                <nb-checkbox
+                                                                                    style="padding: 1px;vertical-align:middle; font-size: 0.9em; "
+                                                                                    status="primary"
+                                                                                    [(ngModel)]="job.useHistory1">
+                                                                                </nb-checkbox>
+                                                                            </div>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style="padding: 10px">
+                                                                    <td colspan="4">
+                                                                        <input
+                                                                            [disabled]="getKeys(job.selectedQuery1).length > 0  || job.selectedQuery1 === usePropertyQuery"
+                                                                            nbInput status="primary" fieldSize="tiny"
+                                                                            type="text"
+                                                                            style="width: 100%; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                            [(ngModel)]="job.query1">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="text-align: right; vertical-align: top; white-space: nowrap;font-size: 0.9em;">
+                                                            Property 1:</td>
+                                                        <td colspan="3">
+                                                            <nb-select style="width:100%" size="tiny" placeholder=""
+                                                                [(ngModel)]="job.selectedProperty1"
+                                                                [(selected)]="job.selectedProperty1">
+                                                                <nb-option
+                                                                    *ngFor="let key of getKeys(learnedNodeProperties).sort();"
+                                                                    [value]="key">
+                                                                    <table
+                                                                        style="font-weight: normal; font-family: 'Courier New', Courier, monospace; font-size:0.9em">
+                                                                        <tr>
+                                                                            <td><span style="color: chartreuse">{{ key
+                                                                                    }} : </span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span>Learned from entities: {{
+                                                                                    getKeys(learnedNodeProperties[key])
+                                                                                    }}</span></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </nb-option>
+                                                            </nb-select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="padding: 5px">
+                                                        <td
+                                                            style="text-align: right; vertical-align: top; white-space: nowrap;font-size: 0.9em;">
+                                                            Query 2:</td>
+                                                        <td colspan="3">
+                                                            <table style="width: 100%;">
+                                                                <tr>
+                                                                    <td>
+                                                                        <nb-select
+                                                                            (selectedChange)="changeSelectedQuery2()"
+                                                                            style="width:100%" size="tiny"
+                                                                            placeholder=""
+                                                                            [(ngModel)]="job.selectedQuery2"
+                                                                            [(selected)]="job.selectedQuery2">
+                                                                            <nb-option selected
+                                                                                [value]="usePropertyQuery">--- Use
+                                                                                Entity Property ---</nb-option>
+                                                                            <nb-option [value]="null">--- Use Maunual
+                                                                                Query ---</nb-option>
+                                                                            <nb-option
+                                                                                *ngFor="let obj of appStateService.savedQueries;"
+                                                                                [value]="obj">
+                                                                                <table
+                                                                                    style="font-weight: normal; font-family: 'Courier New', Courier, monospace; font-size:0.9em">
+                                                                                    <tr>
+                                                                                        <td><span
+                                                                                                style="color: chartreuse">{{
+                                                                                                obj.queryName }} ({{
+                                                                                                obj.queryHistory.length
+                                                                                                }}):</span></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><span>{{ obj.query }}</span>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><span
+                                                                                                style="font-weight: bold;">({{
+                                                                                                appStateService.getEndpointShortName(obj.graphDBEndpoint)
+                                                                                                }})</span></td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </nb-option>
+                                                                        </nb-select>
+                                                                    </td>
+                                                                    <td colspan="1">
+                                                                        <nb-select
+                                                                            (selectedChange)="changeSelectedEntityProperty2()"
+                                                                            *ngIf="job.selectedQuery2 === usePropertyQuery"
+                                                                            style="width:100%" size="tiny"
+                                                                            placeholder=""
+                                                                            [(ngModel)]="job.entityProperty2"
+                                                                            [(selected)]="job.entityProperty2">
+                                                                            <nb-option
+                                                                                *ngFor="let key of entityProperties.sort();"
+                                                                                [value]="key">{{ key }}</nb-option>
+                                                                        </nb-select>
+                                                                    </td>
+                                                                    <td
+                                                                        style="white-space: nowrap; font-size: 0.9em; text-align: right;">
+                                                                        <span
+                                                                            *ngIf="getKeys(job.selectedQuery2).length > 0">
+                                                                            Use History:
+                                                                            <div
+                                                                                style="display:inline-block; overflow:hidden; width:15px; height:20px">
+                                                                                <nb-checkbox
+                                                                                    style="padding: 1px;vertical-align:middle; font-size: 0.9em; "
+                                                                                    status="primary"
+                                                                                    [(ngModel)]="job.useHistory2">
+                                                                                </nb-checkbox>
+                                                                            </div>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style="padding: 10px">
+                                                                    <td colspan="4">
+                                                                        <input
+                                                                            [disabled]="getKeys(job.selectedQuery2).length > 0 || job.selectedQuery2 === usePropertyQuery"
+                                                                            nbInput status="primary" fieldSize="tiny"
+                                                                            type="text"
+                                                                            style="width: 100%; font-size: 0.9em; font-weight: normal; font-family: 'Courier New', Courier, monospace;"
+                                                                            [(ngModel)]="job.query2">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="text-align: right; vertical-align: top; white-space: nowrap;font-size: 0.9em;">
+                                                            Property 2:</td>
+                                                        <td colspan="3">
+                                                            <nb-select style="width:100%" size="tiny" placeholder=""
+                                                                [(ngModel)]="job.selectedProperty2"
+                                                                [(selected)]="job.selectedProperty2">
+                                                                <nb-option
+                                                                    *ngFor="let key of getKeys(learnedNodeProperties).sort();"
+                                                                    [value]="key">
+                                                                    <table
+                                                                        style="font-weight: normal; font-family: 'Courier New', Courier, monospace; font-size:0.9em">
+                                                                        <tr>
+                                                                            <td><span style="color: chartreuse">{{ key
+                                                                                    }} : </span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span>Learned from entities: {{
+                                                                                    getKeys(learnedNodeProperties[key])
+                                                                                    }}</span></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </nb-option>
+                                                            </nb-select>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="width:100px; text-align: right; vertical-align: middle;" class="outer">
+                                    <table style="width: 100%; padding: 5px; text-align: right;">
+                                        <tr>
+                                            <td>
+                                                <button size="tiny" nbButton (click)="add()">Add Job</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button size="tiny" nbButton (click)="saveJob()">Save Job</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button size="tiny" nbButton (click)="refresh()">Refresh All</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="font-size: 0.8em; padding: 5px; height:100%; min-height:400px">
+                        <td colspan="6" style="vertical-align: top; ">
+                            <div
+                                style="display:flex; flex-flow: row; width:100%; font-size: 1.3em; color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse; ">
+                                <div style="padding: 5px; width:150px; color: white; ">
+                                    Name
+                                </div>
+                                <div style="padding: 5px; width: 100px; ">
+                                    Type
+                                </div>
+                                <div style="padding: 5px; width:80px">
+                                    State
+                                </div>
+                                <div style="padding: 5px; flex: 1">
+                                    Owner
+                                </div>
+                                <div style="padding: 5px; flex: 5;">
+                                    Status
+                                </div>
+                                <div style="padding: 5px; width: 160px; text-align: center;">
+                                    Action
+                                </div>
+                            </div>
+                            <div scrollable-container style="height: 95%; width:100%; ">
+                                <div
+                                    style="display:flex; flex-flow: column; width:100%; color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse; ">
+                                    <ng-container *ngFor="let obj of appStateService.jobs;">
+                                        <div
+                                            style="display:flex; flex-flow: row; width:100%; color: chartreuse; border-bottom: 1px; border-bottom-style:solid; border-color:chartreuse; ">
+                                            <div style="padding: 5px; width:150px; color: white; ">
+                                                {{ obj.name }}
+                                            </div>
+                                            <div style="padding: 5px; width:100px">
+                                                {{ obj.type }}
+                                            </div>
+                                            <div style="padding: 5px; width:80px">
+                                                <div class="statusContainer">
+                                                    {{ obj.state }}
+                                                    <div [nbSpinner]="obj.state == 'started'"
+                                                        *ngIf="obj.state == 'started'" nbSpinnerSize="small"
+                                                        class="spinner"> </div>
+                                                </div>
+                                            </div>
+                                            <div style="padding: 5px; flex: 1;">
+                                                {{ obj.owner }}
+                                            </div>
+                                            <div
+                                                style="font-size: 0.9em; padding: 5px; flex:5; font-family: 'Courier New', Courier, monospace; overflow: auto;">
+                                                <span *ngIf="obj.type == 'graphDBLoad'">
+                                                    Query: {{ obj.query1 }}<br />Use History: {{ obj.useHistory1 }}
+                                                    <br />
+                                                    Source: {{ appStateService.getEndpointShortName(obj.sourceInstance)
+                                                    }}
+                                                    <br />
+                                                    Destination: {{
+                                                    appStateService.getEndpointShortName(obj.destInstance) }}
+                                                </span>
+                                                <span *ngIf="obj.type == 'entityResolution'">
+                                                    Algorithm: {{ obj.algorithm }}
+                                                    <br />
+                                                    Query 1: {{ obj.query1 }} Property: {{ obj.selectedProperty1 }}
+                                                    <br />
+                                                    Query 2: {{ obj.query2 }} Property: {{ obj.selectedProperty2 }}
+                                                </span>
+                                                <br />
+                                                <span style="color: whitesmoke;">{{ obj.status }}</span>
+                                            </div>
+                                            <div
+                                                style="padding: 5px; width: 160px; text-align: right; border-left: 1px; border-left-style: solid;">
+                                                <table style="text-align: right; padding: 5px; width: 100%">
+                                                    <tr>
+                                                        <td>
+                                                            <button size="tiny" nbButton
+                                                                (click)="edit(obj)">Edit</button>
+                                                        </td>
+                                                        <td>
+                                                            <button [disabled]="obj.state == 'stopped'" size="tiny"
+                                                                nbButton (click)="stop(obj)">Stop</button>
+                                                        </td>
+                                                        <td>
+                                                            <button [disabled]="obj.state == 'started'" size="tiny"
+                                                                nbButton (click)="start(obj)">Start</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <button size="tiny" nbButton
+                                                                (click)="delete(obj)">Delete</button>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <button size="tiny" fullWidth nbButton
+                                                                (click)="details(obj)">Details</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="flex:1; display: flex; flex-direction: column; padding-left: 7px; padding-right: 7px;">
+                <div>
+                    Job Details: {{ this.jobDetailsName }}
+                </div>
+                <div scrollable-container style="flex: 1" class="treeWindow">
+                    <div id="json-renderer-job"></div>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <mqtt-logs #mqLogs style="height:120px; width:100%"></mqtt-logs>
+    </nb-card-footer>
+</nb-card>

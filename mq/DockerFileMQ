@@ -1,0 +1,8 @@
+FROM eclipse-mosquitto:2
+
+#mq
+COPY mq/configs/mosquitto.conf /mosquitto/config/mosquitto.conf
+EXPOSE 1883
+EXPOSE 9001
+
+ENTRYPOINT ["/docker-entrypoint.sh", "/usr/sbin/mosquitto", "-c", "/mosquitto/config/mosquitto.conf"]

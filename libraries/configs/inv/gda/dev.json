@@ -1,0 +1,62 @@
+{
+    "branch": "dev",
+    "defaultAddress": "",
+
+    "aws": {
+        "loadBalancerScheme": "internal",
+        "s3ConfigFileName": "config.json",
+        "vpcID": "",
+        "availabilityZones": [""],
+        "subnets": [""],
+        "securityGroups": [""],
+        "tags":  [ { "Key": "Project", "Value": "INV" } ],
+        "tagsL": [ { "key": "project", "value": "INV" } ],
+        "autoScaleCPUPercent": 50,
+        "autoScaleMemPercent": 50
+    },
+
+    "appServices": {
+        "ui": {
+            "port": 18081,
+            "address": "",
+            "directory": "./ui",
+            "preBuildScript": "uicompile.sh",
+            "dockerFileLocation": "DockerFileUI",
+            "minContainers": 1,
+            "desiredContainers": 1,
+            "maxContainers": 100,
+            "cpu": 512,
+            "memory": 1024,
+            "autoScale": true,
+            "healthCheckPath": "/healthcheck",
+            "usesLocalConfigs": true,
+            "mq": {
+                "address": "",
+                "port": 1883,
+                "wsport": 9001
+            },
+            "sqlScripts": {}
+        },
+        
+        "api": {
+            "port": 18080,
+            "address": "",
+            "directory": "./api",
+            "preBuildScript": "",
+            "dockerFileLocation": "DockerFileAPI",
+            "minContainers": 1,
+            "desiredContainers": 1,
+            "maxContainers": 100,
+            "cpu": 1024,
+            "memory": 8192,
+            "autoScale": true,
+            "healthCheckPath": "/healthcheck",
+            "sqlScripts": {
+                "accounts": "",
+                "graphdb_queries": "",
+                "graphdb_downloads": "",
+                "jobs": ""
+            }
+        }
+    }
+}
