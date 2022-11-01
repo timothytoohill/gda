@@ -59,7 +59,7 @@ g.V().has('genre', 'name', 'Drama').in_('belongsTo')
 ```
 ## Automatic Traversal For Exploration
 One of the goals for GDA is to enable graph exploration. GDA can automatically traverse graph query results so that the user can see the context of entities and relationships. 
-![GDA Jobs](assets/gremlin.gif)
+![GDA Gremlin](assets/gremlin.gif)
 # Configuration
 The configuration files for GDA are located in `libraries/configs`. 
 ## Docker Compose
@@ -92,7 +92,7 @@ I added a dashboard to the GDA UI that lets the user view any part of the loggin
 Some graph databases do not provide a way to enumerate (or describe) the graph schema. This is because of the way they store graph data. As a result, the only way to discover the available entity and edge types, and their respective properties, is to 'learn' them from queries.
 
 GDA learns schema from graph query results and stores the schema for future reference, such as for entity resolution. 
-![GDA Instrumentation](assets/learned-schema.png)
+![GDA Learned Schema](assets/learned-schema.png)
 
 # To Do
 There is a lot I would do to improve GDA. It is still in a prototype stage, so it's not yet ready for a production environment. 

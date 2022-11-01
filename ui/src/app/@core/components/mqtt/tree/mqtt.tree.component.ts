@@ -67,7 +67,7 @@ export class MQTTTreeComponent extends MQTTComponent implements OnDestroy {
 
     constructor(public mqttService: MQTTService, public statusService: StatusService, public appStateService: AppStateService) {
         super(mqttService, statusService);
-        this.mqttSubscribe('inv/#', (topic: string, payload: any) => { this.handleMessage(topic, payload); });
+        this.mqttSubscribe(this.appStateService.appConfigs['appOrganization'] + "/#", (topic: string, payload: any) => { this.handleMessage(topic, payload); });
         this.treeUpdateTimerSubscription = this.treeUpdateTimer.subscribe(() => {
             this.updateTableDataActivity();
         });
