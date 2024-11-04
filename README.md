@@ -1,5 +1,5 @@
 # GDA
-Graph Data Analytics (GDA) is a scalable, microservice-based, experimental platform prototype for querying, visualizing, and analyzing property graph data. GDA was initially developed for AWS Neptune, but Neptune could not handle large scales of data. Currently, only Gremlin queries are supported by GDA, but I have plans for a custom graph query language.
+Graph Data Analytics (GDA) is a rapidly-developed experimental prototype of a scalable, microservice-based graph platform for querying, visualizing, and analyzing property graph data, with support for entity resolution. GDA was initially developed for AWS Neptune, but Neptune could not handle large scales of data at that time, so DataStax Graph is used instead. Currently, only Gremlin queries are supported by GDA. 
 
 ![GDA Dashboard](assets/dashboard.png)
 
@@ -51,7 +51,7 @@ python3 loadsample01.py
 python3 loadsample02.py
 ```
 # Graph Queries
-Currently, GDA only support Gremlin queries. Here are some example queries that can be run after the sample data has been loaded:
+Here are some example queries that can be run after the sample data has been loaded:
 ```shell
 g.V().limit(10)
 g.E().hasLabel('belongsTo')
@@ -59,6 +59,9 @@ g.V().has('genre', 'name', 'Drama').in_('belongsTo')
 ```
 ## Automatic Traversal For Exploration
 One of the goals for GDA is to enable graph exploration. GDA can automatically traverse graph query results so that the user can see the context of entities and relationships. 
+
+Due to the desire for automatic graph traversals to enumerate both indegree and outdegree edges, all data is loaded with bidirectional edges. While this detracts from the semantic value of edge directionality, it enabled performant graph exploration with large-scale data due to the way the edge identifiers are indexed.
+
 ![GDA Gremlin](assets/gremlin.gif)
 # Configuration
 The configuration files for GDA are located in `libraries/configs`. 
@@ -67,11 +70,11 @@ If you are using `docker compose` to run GDA, the `libraries/configs/base.json` 
 
 # Features and Goals
 ## Scalability
-GDA supports large-scale graph analytics, machine learning, and ETL pipelines. Currently, the backend graph database uses Janus Graph, Cassandra, and Solr, which makes GDA scalable to support very large datasets.
+GDA supports analytics and machine learning on large-scale graphs.
 ## Machine Learning and AI
-Graph data strctures, when modeled propery, can be very useful for performing analytics across disparate data sources. A goal for GDA is to enable machine learning at scale. The backend of GDA is intended to support model training with high volumes of data. While the machine learning features of GDA depend on the advancement of other features, the platform will continue to be evolved with support for machine learning and AI automations in mind.
+Graph data strctures, when modeled properly, can be very useful for performing analytics across disparate data sources. A goal for GDA is to enable machine learning at scale. The backend of GDA is intended to support model training with high volumes of data. The machine learning features of GDA depends on the advancement of other features.
 ## Entity resolution
-GDA performs rudimentary entity resolution, and I intend to extend this capability while I evolve the platform. Entity resolution is accomplished via 'jobs' that can be created, started, and left running. Graph queries are used to supply the job with the entities to be resolved, and edges can be automatically created if the algorithm identifies a match.
+GDA performs rudimentary entity resolution. Entity resolution is accomplished via 'jobs' that can be created, started, and left running. Graph queries are used to supply the job with the entities to be resolved, and edges can be automatically created if the algorithm identifies a match.
 ![GDA Jobs](assets/jobs.png)
 GDA jobs can be run currently. The backend microservices can be run inside of scalable container clusters to handle increasing scales of data.
 
@@ -97,4 +100,5 @@ GDA learns schema from graph query results and stores the schema for future refe
 # To Do
 There is a lot I would do to improve GDA. It is still in a prototype stage, so it's not yet ready for a production environment. 
 1. Rewrite the backed to use a more performant runtime, such as Rust, Go, or even NodeJS would be better. The Python runtime is not ideal for performance.
-2. Begin working on the ETL pipelining capabiities.
+2. Adopt coding best practices and move away from rapid-prototyping development approaches.
+3. Begin working on the ETL pipelining capabiities.
